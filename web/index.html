@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Paste Service</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Minimal Paste Service</h1>
+            <p>Share text snippets instantly</p>
+        </div>
+        
+        <div class="editor-container">
+            <textarea id="paste-content" placeholder="Paste your text here..." autofocus></textarea>
+        </div>
+        
+        <div class="actions">
+            <button id="go-button" class="btn-primary">Go</button>
+        </div>
+    </div>
+
+    <script>
+        const textarea = document.getElementById('paste-content');
+        const goButton = document.getElementById('go-button');
+
+        // Handle Go button click
+        goButton.addEventListener('click', async () => {
+            const content = textarea.value.trim();
+            
+            if (!content) {
+                alert('Please enter some text');
+                return;
+            }
+
+            goButton.disabled = true;
+            goButton.textContent = 'Creating...';
+
+            try {
+                const response = await fetch('/create', {
+                    method: 'POST',
+                    body: content
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    // Manual redirect for some browsers
+                    const location = response.headers.get('Location');
+                    if (location) {
+                        window.location.href = location;
+                    } else {
+                        // Extract from response or just reload
+                        window.location.reload();
+                    }
+                }
+            } catch (error) {
+                console.error('Error creating paste:', error);
+                alert('Failed to create paste');
+                goButton.disabled = false;
+                goButton.textContent = 'Go';
+            }
+        });
+
+        // Allow Ctrl+Enter to submit
+        textarea.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                goButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

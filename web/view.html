@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Paste</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Paste <span id="paste-id"></span></h1>
+            <a href="/" class="new-paste-link">Create New</a>
+        </div>
+        
+        <div class="editor-container">
+            <div id="view-mode" class="view-mode">
+                <pre id="paste-display"></pre>
+            </div>
+            <textarea id="paste-editor" class="hidden"></textarea>
+        </div>
+        
+        <div class="actions">
+            <button id="edit-button" class="btn-secondary">Edit</button>
+            <button id="save-button" class="btn-primary hidden">Save</button>
+            <button id="cancel-button" class="btn-secondary hidden">Cancel</button>
+            <span id="status-indicator"></span>
+        </div>
+        
+        <div class="info">
+            <p>Real-time collaborative editing enabled. Changes from other users will appear automatically.</p>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
