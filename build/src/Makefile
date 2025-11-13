@@ -155,6 +155,20 @@ ingest_server/fast:
 .PHONY : ingest_server/fast
 
 # Convenience name for target.
+src/CMakeFiles/replay_server.dir/rule:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/replay_server.dir/rule
+.PHONY : src/CMakeFiles/replay_server.dir/rule
+
+# Convenience name for target.
+replay_server: src/CMakeFiles/replay_server.dir/rule
+.PHONY : replay_server
+
+# fast build rule for target.
+replay_server/fast:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/build
+.PHONY : replay_server/fast
+
+# Convenience name for target.
 src/CMakeFiles/feed_generator.dir/rule:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/feed_generator.dir/rule
 .PHONY : src/CMakeFiles/feed_generator.dir/rule
@@ -181,6 +195,20 @@ subscriber_client: src/CMakeFiles/subscriber_client.dir/rule
 subscriber_client/fast:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/subscriber_client.dir/build.make src/CMakeFiles/subscriber_client.dir/build
 .PHONY : subscriber_client/fast
+
+# Convenience name for target.
+src/CMakeFiles/websocket_bridge.dir/rule:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/websocket_bridge.dir/rule
+.PHONY : src/CMakeFiles/websocket_bridge.dir/rule
+
+# Convenience name for target.
+websocket_bridge: src/CMakeFiles/websocket_bridge.dir/rule
+.PHONY : websocket_bridge
+
+# fast build rule for target.
+websocket_bridge/fast:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/websocket_bridge.dir/build.make src/CMakeFiles/websocket_bridge.dir/build
+.PHONY : websocket_bridge/fast
 
 client/subscriber_client.o: client/subscriber_client.cpp.o
 .PHONY : client/subscriber_client.o
@@ -284,6 +312,7 @@ server/broadcaster.o: server/broadcaster.cpp.o
 # target to build an object file
 server/broadcaster.cpp.o:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/broadcaster.cpp.o
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/broadcaster.cpp.o
 .PHONY : server/broadcaster.cpp.o
 
 server/broadcaster.i: server/broadcaster.cpp.i
@@ -292,6 +321,7 @@ server/broadcaster.i: server/broadcaster.cpp.i
 # target to preprocess a source file
 server/broadcaster.cpp.i:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/broadcaster.cpp.i
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/broadcaster.cpp.i
 .PHONY : server/broadcaster.cpp.i
 
 server/broadcaster.s: server/broadcaster.cpp.s
@@ -300,7 +330,32 @@ server/broadcaster.s: server/broadcaster.cpp.s
 # target to generate assembly for a file
 server/broadcaster.cpp.s:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/broadcaster.cpp.s
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/broadcaster.cpp.s
 .PHONY : server/broadcaster.cpp.s
+
+server/csv_reader.o: server/csv_reader.cpp.o
+.PHONY : server/csv_reader.o
+
+# target to build an object file
+server/csv_reader.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/csv_reader.cpp.o
+.PHONY : server/csv_reader.cpp.o
+
+server/csv_reader.i: server/csv_reader.cpp.i
+.PHONY : server/csv_reader.i
+
+# target to preprocess a source file
+server/csv_reader.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/csv_reader.cpp.i
+.PHONY : server/csv_reader.cpp.i
+
+server/csv_reader.s: server/csv_reader.cpp.s
+.PHONY : server/csv_reader.s
+
+# target to generate assembly for a file
+server/csv_reader.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/csv_reader.cpp.s
+.PHONY : server/csv_reader.cpp.s
 
 server/ingest_server.o: server/ingest_server.cpp.o
 .PHONY : server/ingest_server.o
@@ -374,6 +429,81 @@ server/persistence.cpp.s:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/persistence.cpp.s
 .PHONY : server/persistence.cpp.s
 
+server/replay_server.o: server/replay_server.cpp.o
+.PHONY : server/replay_server.o
+
+# target to build an object file
+server/replay_server.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/replay_server.cpp.o
+.PHONY : server/replay_server.cpp.o
+
+server/replay_server.i: server/replay_server.cpp.i
+.PHONY : server/replay_server.i
+
+# target to preprocess a source file
+server/replay_server.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/replay_server.cpp.i
+.PHONY : server/replay_server.cpp.i
+
+server/replay_server.s: server/replay_server.cpp.s
+.PHONY : server/replay_server.s
+
+# target to generate assembly for a file
+server/replay_server.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/replay_server.cpp.s
+.PHONY : server/replay_server.cpp.s
+
+server/token_bucket.o: server/token_bucket.cpp.o
+.PHONY : server/token_bucket.o
+
+# target to build an object file
+server/token_bucket.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/token_bucket.cpp.o
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/token_bucket.cpp.o
+.PHONY : server/token_bucket.cpp.o
+
+server/token_bucket.i: server/token_bucket.cpp.i
+.PHONY : server/token_bucket.i
+
+# target to preprocess a source file
+server/token_bucket.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/token_bucket.cpp.i
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/token_bucket.cpp.i
+.PHONY : server/token_bucket.cpp.i
+
+server/token_bucket.s: server/token_bucket.cpp.s
+.PHONY : server/token_bucket.s
+
+# target to generate assembly for a file
+server/token_bucket.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ingest_server.dir/build.make src/CMakeFiles/ingest_server.dir/server/token_bucket.cpp.s
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/server/token_bucket.cpp.s
+.PHONY : server/token_bucket.cpp.s
+
+server/websocket_bridge.o: server/websocket_bridge.cpp.o
+.PHONY : server/websocket_bridge.o
+
+# target to build an object file
+server/websocket_bridge.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/websocket_bridge.dir/build.make src/CMakeFiles/websocket_bridge.dir/server/websocket_bridge.cpp.o
+.PHONY : server/websocket_bridge.cpp.o
+
+server/websocket_bridge.i: server/websocket_bridge.cpp.i
+.PHONY : server/websocket_bridge.i
+
+# target to preprocess a source file
+server/websocket_bridge.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/websocket_bridge.dir/build.make src/CMakeFiles/websocket_bridge.dir/server/websocket_bridge.cpp.i
+.PHONY : server/websocket_bridge.cpp.i
+
+server/websocket_bridge.s: server/websocket_bridge.cpp.s
+.PHONY : server/websocket_bridge.s
+
+# target to generate assembly for a file
+server/websocket_bridge.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/websocket_bridge.dir/build.make src/CMakeFiles/websocket_bridge.dir/server/websocket_bridge.cpp.s
+.PHONY : server/websocket_bridge.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -386,7 +516,9 @@ help:
 	@echo "... common"
 	@echo "... feed_generator"
 	@echo "... ingest_server"
+	@echo "... replay_server"
 	@echo "... subscriber_client"
+	@echo "... websocket_bridge"
 	@echo "... client/subscriber_client.o"
 	@echo "... client/subscriber_client.i"
 	@echo "... client/subscriber_client.s"
@@ -402,6 +534,9 @@ help:
 	@echo "... server/broadcaster.o"
 	@echo "... server/broadcaster.i"
 	@echo "... server/broadcaster.s"
+	@echo "... server/csv_reader.o"
+	@echo "... server/csv_reader.i"
+	@echo "... server/csv_reader.s"
 	@echo "... server/ingest_server.o"
 	@echo "... server/ingest_server.i"
 	@echo "... server/ingest_server.s"
@@ -411,6 +546,15 @@ help:
 	@echo "... server/persistence.o"
 	@echo "... server/persistence.i"
 	@echo "... server/persistence.s"
+	@echo "... server/replay_server.o"
+	@echo "... server/replay_server.i"
+	@echo "... server/replay_server.s"
+	@echo "... server/token_bucket.o"
+	@echo "... server/token_bucket.i"
+	@echo "... server/token_bucket.s"
+	@echo "... server/websocket_bridge.o"
+	@echo "... server/websocket_bridge.i"
+	@echo "... server/websocket_bridge.s"
 .PHONY : help
 
 

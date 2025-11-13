@@ -140,6 +140,144 @@ test_serialization/fast:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_serialization.dir/build.make tests/CMakeFiles/test_serialization.dir/build
 .PHONY : test_serialization/fast
 
+# Convenience name for target.
+tests/CMakeFiles/test_smoothing.dir/rule:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_smoothing.dir/rule
+.PHONY : tests/CMakeFiles/test_smoothing.dir/rule
+
+# Convenience name for target.
+test_smoothing: tests/CMakeFiles/test_smoothing.dir/rule
+.PHONY : test_smoothing
+
+# fast build rule for target.
+test_smoothing/fast:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/build
+.PHONY : test_smoothing/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_token_bucket.dir/rule:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_token_bucket.dir/rule
+.PHONY : tests/CMakeFiles/test_token_bucket.dir/rule
+
+# Convenience name for target.
+test_token_bucket: tests/CMakeFiles/test_token_bucket.dir/rule
+.PHONY : test_token_bucket
+
+# fast build rule for target.
+test_token_bucket/fast:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/build
+.PHONY : test_token_bucket/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_replay.dir/rule:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_replay.dir/rule
+.PHONY : tests/CMakeFiles/test_replay.dir/rule
+
+# Convenience name for target.
+test_replay: tests/CMakeFiles/test_replay.dir/rule
+.PHONY : test_replay
+
+# fast build rule for target.
+test_replay/fast:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/build
+.PHONY : test_replay/fast
+
+__/src/server/csv_reader.o: __/src/server/csv_reader.cpp.o
+.PHONY : __/src/server/csv_reader.o
+
+# target to build an object file
+__/src/server/csv_reader.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/__/src/server/csv_reader.cpp.o
+.PHONY : __/src/server/csv_reader.cpp.o
+
+__/src/server/csv_reader.i: __/src/server/csv_reader.cpp.i
+.PHONY : __/src/server/csv_reader.i
+
+# target to preprocess a source file
+__/src/server/csv_reader.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/__/src/server/csv_reader.cpp.i
+.PHONY : __/src/server/csv_reader.cpp.i
+
+__/src/server/csv_reader.s: __/src/server/csv_reader.cpp.s
+.PHONY : __/src/server/csv_reader.s
+
+# target to generate assembly for a file
+__/src/server/csv_reader.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/__/src/server/csv_reader.cpp.s
+.PHONY : __/src/server/csv_reader.cpp.s
+
+__/src/server/normalizer.o: __/src/server/normalizer.cpp.o
+.PHONY : __/src/server/normalizer.o
+
+# target to build an object file
+__/src/server/normalizer.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/__/src/server/normalizer.cpp.o
+.PHONY : __/src/server/normalizer.cpp.o
+
+__/src/server/normalizer.i: __/src/server/normalizer.cpp.i
+.PHONY : __/src/server/normalizer.i
+
+# target to preprocess a source file
+__/src/server/normalizer.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/__/src/server/normalizer.cpp.i
+.PHONY : __/src/server/normalizer.cpp.i
+
+__/src/server/normalizer.s: __/src/server/normalizer.cpp.s
+.PHONY : __/src/server/normalizer.s
+
+# target to generate assembly for a file
+__/src/server/normalizer.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/__/src/server/normalizer.cpp.s
+.PHONY : __/src/server/normalizer.cpp.s
+
+__/src/server/token_bucket.o: __/src/server/token_bucket.cpp.o
+.PHONY : __/src/server/token_bucket.o
+
+# target to build an object file
+__/src/server/token_bucket.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/__/src/server/token_bucket.cpp.o
+.PHONY : __/src/server/token_bucket.cpp.o
+
+__/src/server/token_bucket.i: __/src/server/token_bucket.cpp.i
+.PHONY : __/src/server/token_bucket.i
+
+# target to preprocess a source file
+__/src/server/token_bucket.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/__/src/server/token_bucket.cpp.i
+.PHONY : __/src/server/token_bucket.cpp.i
+
+__/src/server/token_bucket.s: __/src/server/token_bucket.cpp.s
+.PHONY : __/src/server/token_bucket.s
+
+# target to generate assembly for a file
+__/src/server/token_bucket.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/__/src/server/token_bucket.cpp.s
+.PHONY : __/src/server/token_bucket.cpp.s
+
+test_replay.o: test_replay.cpp.o
+.PHONY : test_replay.o
+
+# target to build an object file
+test_replay.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/test_replay.cpp.o
+.PHONY : test_replay.cpp.o
+
+test_replay.i: test_replay.cpp.i
+.PHONY : test_replay.i
+
+# target to preprocess a source file
+test_replay.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/test_replay.cpp.i
+.PHONY : test_replay.cpp.i
+
+test_replay.s: test_replay.cpp.s
+.PHONY : test_replay.s
+
+# target to generate assembly for a file
+test_replay.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/test_replay.cpp.s
+.PHONY : test_replay.cpp.s
+
 test_serialization.o: test_serialization.cpp.o
 .PHONY : test_serialization.o
 
@@ -164,6 +302,54 @@ test_serialization.cpp.s:
 	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_serialization.dir/build.make tests/CMakeFiles/test_serialization.dir/test_serialization.cpp.s
 .PHONY : test_serialization.cpp.s
 
+test_smoothing.o: test_smoothing.cpp.o
+.PHONY : test_smoothing.o
+
+# target to build an object file
+test_smoothing.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/test_smoothing.cpp.o
+.PHONY : test_smoothing.cpp.o
+
+test_smoothing.i: test_smoothing.cpp.i
+.PHONY : test_smoothing.i
+
+# target to preprocess a source file
+test_smoothing.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/test_smoothing.cpp.i
+.PHONY : test_smoothing.cpp.i
+
+test_smoothing.s: test_smoothing.cpp.s
+.PHONY : test_smoothing.s
+
+# target to generate assembly for a file
+test_smoothing.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/test_smoothing.cpp.s
+.PHONY : test_smoothing.cpp.s
+
+test_token_bucket.o: test_token_bucket.cpp.o
+.PHONY : test_token_bucket.o
+
+# target to build an object file
+test_token_bucket.cpp.o:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/test_token_bucket.cpp.o
+.PHONY : test_token_bucket.cpp.o
+
+test_token_bucket.i: test_token_bucket.cpp.i
+.PHONY : test_token_bucket.i
+
+# target to preprocess a source file
+test_token_bucket.cpp.i:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/test_token_bucket.cpp.i
+.PHONY : test_token_bucket.cpp.i
+
+test_token_bucket.s: test_token_bucket.cpp.s
+.PHONY : test_token_bucket.s
+
+# target to generate assembly for a file
+test_token_bucket.cpp.s:
+	cd /workspaces/CN-project/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/test_token_bucket.cpp.s
+.PHONY : test_token_bucket.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -173,10 +359,31 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... test_replay"
 	@echo "... test_serialization"
+	@echo "... test_smoothing"
+	@echo "... test_token_bucket"
+	@echo "... __/src/server/csv_reader.o"
+	@echo "... __/src/server/csv_reader.i"
+	@echo "... __/src/server/csv_reader.s"
+	@echo "... __/src/server/normalizer.o"
+	@echo "... __/src/server/normalizer.i"
+	@echo "... __/src/server/normalizer.s"
+	@echo "... __/src/server/token_bucket.o"
+	@echo "... __/src/server/token_bucket.i"
+	@echo "... __/src/server/token_bucket.s"
+	@echo "... test_replay.o"
+	@echo "... test_replay.i"
+	@echo "... test_replay.s"
 	@echo "... test_serialization.o"
 	@echo "... test_serialization.i"
 	@echo "... test_serialization.s"
+	@echo "... test_smoothing.o"
+	@echo "... test_smoothing.i"
+	@echo "... test_smoothing.s"
+	@echo "... test_token_bucket.o"
+	@echo "... test_token_bucket.i"
+	@echo "... test_token_bucket.s"
 .PHONY : help
 
 

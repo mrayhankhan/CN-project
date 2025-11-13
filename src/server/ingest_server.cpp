@@ -19,12 +19,12 @@ int main(int argc, char** argv) {
   const int sub_port = 9100;
   const int admin_port = 9200;
 
-  Broadcaster broadcaster(sub_port);
+  Broadcaster broadcaster(sub_port, 100, 200);
   broadcaster.start();
 
   Persistence persist("normalized_log.csv");
 
-  Normalizer normalizer(200);
+  Normalizer normalizer(200, 5);
   normalizer.set_output_cb([&](const Tick& t){
     broadcaster.push_normalized(t);
     persist.append(t);

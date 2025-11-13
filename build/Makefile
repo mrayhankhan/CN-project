@@ -153,6 +153,19 @@ ingest_server/fast:
 .PHONY : ingest_server/fast
 
 #=============================================================================
+# Target rules for targets named replay_server
+
+# Build rule for target.
+replay_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 replay_server
+.PHONY : replay_server
+
+# fast build rule for target.
+replay_server/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/replay_server.dir/build.make src/CMakeFiles/replay_server.dir/build
+.PHONY : replay_server/fast
+
+#=============================================================================
 # Target rules for targets named feed_generator
 
 # Build rule for target.
@@ -179,6 +192,19 @@ subscriber_client/fast:
 .PHONY : subscriber_client/fast
 
 #=============================================================================
+# Target rules for targets named websocket_bridge
+
+# Build rule for target.
+websocket_bridge: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 websocket_bridge
+.PHONY : websocket_bridge
+
+# fast build rule for target.
+websocket_bridge/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/websocket_bridge.dir/build.make src/CMakeFiles/websocket_bridge.dir/build
+.PHONY : websocket_bridge/fast
+
+#=============================================================================
 # Target rules for targets named test_serialization
 
 # Build rule for target.
@@ -190,6 +216,45 @@ test_serialization: cmake_check_build_system
 test_serialization/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_serialization.dir/build.make tests/CMakeFiles/test_serialization.dir/build
 .PHONY : test_serialization/fast
+
+#=============================================================================
+# Target rules for targets named test_smoothing
+
+# Build rule for target.
+test_smoothing: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_smoothing
+.PHONY : test_smoothing
+
+# fast build rule for target.
+test_smoothing/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_smoothing.dir/build.make tests/CMakeFiles/test_smoothing.dir/build
+.PHONY : test_smoothing/fast
+
+#=============================================================================
+# Target rules for targets named test_token_bucket
+
+# Build rule for target.
+test_token_bucket: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_token_bucket
+.PHONY : test_token_bucket
+
+# fast build rule for target.
+test_token_bucket/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_token_bucket.dir/build.make tests/CMakeFiles/test_token_bucket.dir/build
+.PHONY : test_token_bucket/fast
+
+#=============================================================================
+# Target rules for targets named test_replay
+
+# Build rule for target.
+test_replay: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_replay
+.PHONY : test_replay
+
+# fast build rule for target.
+test_replay/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_replay.dir/build.make tests/CMakeFiles/test_replay.dir/build
+.PHONY : test_replay/fast
 
 # Help Target
 help:
@@ -203,8 +268,13 @@ help:
 	@echo "... common"
 	@echo "... feed_generator"
 	@echo "... ingest_server"
+	@echo "... replay_server"
 	@echo "... subscriber_client"
+	@echo "... test_replay"
 	@echo "... test_serialization"
+	@echo "... test_smoothing"
+	@echo "... test_token_bucket"
+	@echo "... websocket_bridge"
 .PHONY : help
 
 

@@ -5,9 +5,10 @@
 #include <condition_variable>
 #include <iostream>
 #include <set>
+#include <numeric>
 
-Normalizer::Normalizer(size_t window_ms)
-  : window_ms_(window_ms), running_(true) {
+Normalizer::Normalizer(size_t window_ms, size_t smoothing_window)
+  : window_ms_(window_ms), smoothing_window_(smoothing_window), running_(true) {
   std::thread([this]{ worker_loop(); }).detach();
 }
 
@@ -29,6 +30,20 @@ void Normalizer::stop() {
 static bool tick_less(const Tick& a, const Tick& b) {
   if (a.timestamp_ms != b.timestamp_ms) return a.timestamp_ms < b.timestamp_ms;
   return a.seq_id < b.seq_id;
+}
+
+double Normalizer::get_smoothed_price(uint32_t feed_id, double current_price) {
+  if (smoothing_window_ == 0) return current_price;
+  
+  auto& history = price_history_[feed_id];
+  history.push_back(current_price);
+  
+  if (history.size() > smoothing_window_) {
+    history.pop_front();
+  }
+  
+  double sum = std::accumulate(history.begin(), history.end(), 0.0);
+  return sum / history.size();
 }
 
 void Normalizer::worker_loop() {
@@ -55,15 +70,19 @@ void Normalizer::worker_loop() {
 
     if (!ready.empty()) {
       std::sort(ready.begin(), ready.end(), tick_less);
-      // simple dedupe based on feed id and seq id local to batch
       std::set<std::pair<uint32_t,uint64_t>> seen;
       for (auto& t : ready) {
         auto key = std::make_pair(t.feed_id, t.seq_id);
         if (seen.find(key) != seen.end()) continue;
         seen.insert(key);
-        // simple outlier rejection: price must be positive and finite
         if (!(t.price > 0)) continue;
-        // smoothing could be applied here. For simplicity pass through
+        
+        // Apply smoothing
+        {
+          std::lock_guard<std::mutex> lk(mu_);
+          t.price = get_smoothed_price(t.feed_id, t.price);
+        }
+        
         OutputCallback cb;
         {
           std::lock_guard<std::mutex> lk(mu_);

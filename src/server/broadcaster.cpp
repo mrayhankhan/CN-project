@@ -7,8 +7,9 @@
 #include <iostream>
 #include <sstream>
 
-Broadcaster::Broadcaster(int port)
-  : port_(port), listen_fd_(-1), running_(false) {}
+Broadcaster::Broadcaster(int port, size_t rate_limit, size_t burst_size)
+  : port_(port), listen_fd_(-1), rate_limit_(rate_limit), 
+    burst_size_(burst_size), running_(false) {}
 
 Broadcaster::~Broadcaster() {
   stop();
@@ -60,45 +61,35 @@ void Broadcaster::listener_loop() {
       std::cerr << "accept failed\n";
       continue;
     }
-    // simple client registration
     {
       std::lock_guard<std::mutex> lk(mu_);
       clients_[fd] = "unknown";
+      rate_limiters_[fd] = std::make_shared<TokenBucket>(burst_size_, rate_limit_);
     }
-    // spawn per client reader to consume subscribe request and then run writer thread
     std::thread([this,fd]{
-      // read frame length
       uint8_t lenbuf[4];
       if (!read_n_from_fd(fd, lenbuf, 4)) { close(fd); return; }
       uint32_t len = ntohl(*reinterpret_cast<uint32_t*>(lenbuf));
       std::vector<uint8_t> payload(len);
       if (!read_n_from_fd(fd, payload.data(), len)) { close(fd); return; }
       uint8_t type = payload[0];
-      // ignore content for now
-      // send ack snapshot
       std::string welcome = "{\"type\":\"snapshot\",\"note\":\"welcome\"}\n";
       send(fd, welcome.c_str(), static_cast<size_t>(welcome.size()), 0);
-      // keep socket open for writes
-      // writer loop will write updates when push_normalized is called
-      // simple approach: nothing more in reader
-      // block to keep thread alive
       while (true) {
         char tmp;
         ssize_t r = recv(fd, &tmp, 1, MSG_PEEK | MSG_DONTWAIT);
         if (r == 0) break;
         if (r < 0) {
-          // no data available
           std::this_thread::sleep_for(std::chrono::milliseconds(100));
           continue;
         }
-        // if client sends something break
         break;
       }
-      // cleanup
       std::lock_guard<std::mutex> lk(mu_);
       if (clients_.find(fd) != clients_.end()) {
         close(fd);
         clients_.erase(fd);
+        rate_limiters_.erase(fd);
       }
     }).detach();
   }
@@ -117,9 +108,15 @@ void Broadcaster::push_normalized(const Tick& t) {
   std::string s = oss.str();
   for (auto it = clients_.begin(); it != clients_.end();) {
     int fd = it->first;
-    ssize_t sent = send(fd, s.c_str(), s.size(), 0);
+    auto limiter_it = rate_limiters_.find(fd);
+    if (limiter_it == rate_limiters_.end() || !limiter_it->second->try_consume(1)) {
+      ++it;
+      continue;
+    }
+    ssize_t sent = send(fd, s.c_str(), s.size(), MSG_DONTWAIT);
     if (sent < 0) {
       close(fd);
+      rate_limiters_.erase(fd);
       it = clients_.erase(it);
     } else ++it;
   }

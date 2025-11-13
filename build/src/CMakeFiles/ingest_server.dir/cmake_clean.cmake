@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ingest_server.dir/server/normalizer.cpp.o.d"
   "CMakeFiles/ingest_server.dir/server/persistence.cpp.o"
   "CMakeFiles/ingest_server.dir/server/persistence.cpp.o.d"
+  "CMakeFiles/ingest_server.dir/server/token_bucket.cpp.o"
+  "CMakeFiles/ingest_server.dir/server/token_bucket.cpp.o.d"
   "ingest_server"
   "ingest_server.pdb"
 )
