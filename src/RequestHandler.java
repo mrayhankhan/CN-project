@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
+import java.util.*;
 
 /**
  * RequestHandler - Routes and handles HTTP requests
@@ -18,10 +19,30 @@ public class RequestHandler {
             serveFile(socket, "../web/app.js", "application/javascript");
         } else if (path.equals("/view.html")) {
             serveFile(socket, "../web/view.html", "text/html");
+        } else if (path.equals("/history.html")) {
+            serveFile(socket, "../web/history.html", "text/html");
+        } else if (path.equals("/history.js")) {
+            serveFile(socket, "../web/history.js", "application/javascript");
         }
         // Create paste endpoint
         else if (path.equals("/create") && method.equals("POST")) {
             handleCreate(socket, body);
+        }
+        // History API endpoints
+        else if (path.equals("/api/history") && method.equals("GET")) {
+            handleGetHistory(socket);
+        }
+        else if (path.matches("^/api/history/\\d{5}$")) {
+            String id = path.substring(13); // Remove "/api/history/"
+            if (method.equals("GET")) {
+                handleGetHistoryById(socket, id);
+            } else {
+                HttpServer.sendResponse(socket, 400, "text/plain", "Method not allowed");
+            }
+        }
+        else if (path.matches("^/api/history/\\d{5}/delete$") && method.equals("POST")) {
+            String id = path.substring(13, 18); // Extract ID from "/api/history/00001/delete"
+            handleDeletePaste(socket, id);
         }
         // API endpoint for getting paste data as JSON
         else if (path.matches("^/api/\\d{5}$")) {
@@ -85,8 +106,11 @@ public class RequestHandler {
             return;
         }
         
+        // Get client IP
+        String clientIp = socket.getInetAddress().getHostAddress();
+        
         // Create paste
-        String id = Storage.createPaste(text);
+        String id = Storage.createPaste(text, clientIp);
         
         if (id == null) {
             HttpServer.sendResponse(socket, 500, "text/plain", "Failed to create paste");
@@ -124,8 +148,11 @@ public class RequestHandler {
             return;
         }
         
+        // Get client IP
+        String clientIp = socket.getInetAddress().getHostAddress();
+        
         // Update paste
-        boolean success = Storage.updatePaste(id, body);
+        boolean success = Storage.updatePaste(id, body, clientIp);
         
         if (success) {
             // Broadcast update to all WebSocket clients
@@ -134,5 +161,74 @@ public class RequestHandler {
         } else {
             HttpServer.sendResponse(socket, 404, "text/plain", "Paste not found");
         }
+    }
+    
+    private static void handleGetHistory(Socket socket) throws IOException {
+        List<Map<String, Object>> history = StorageHistory.readAll();
+        String json = historyListToJson(history);
+        HttpServer.sendResponse(socket, 200, "application/json", json);
+    }
+    
+    private static void handleGetHistoryById(Socket socket, String id) throws IOException {
+        // Validate ID format
+        if (!id.matches("\\d{5}")) {
+            HttpServer.sendResponse(socket, 400, "text/plain", "Invalid ID format");
+            return;
+        }
+        
+        List<Map<String, Object>> history = StorageHistory.readById(id);
+        if (history.isEmpty()) {
+            HttpServer.sendResponse(socket, 404, "text/plain", "No history found for ID");
+            return;
+        }
+        
+        String json = historyListToJson(history);
+        HttpServer.sendResponse(socket, 200, "application/json", json);
+    }
+    
+    private static void handleDeletePaste(Socket socket, String id) throws IOException {
+        // Validate ID format
+        if (!id.matches("\\d{5}")) {
+            HttpServer.sendResponse(socket, 400, "text/plain", "Invalid ID format");
+            return;
+        }
+        
+        // Get client IP
+        String clientIp = socket.getInetAddress().getHostAddress();
+        
+        // Mark as deleted in history
+        StorageHistory.markDelete(id, clientIp);
+        
+        ServerLogger.log("Paste " + id + " marked as deleted by " + clientIp);
+        HttpServer.sendResponse(socket, 200, "text/plain", "Deleted");
+    }
+    
+    private static String historyListToJson(List<Map<String, Object>> history) {
+        StringBuilder json = new StringBuilder();
+        json.append("[");
+        
+        for (int i = 0; i < history.size(); i++) {
+            if (i > 0) json.append(",");
+            json.append(historyEntryToJson(history.get(i)));
+        }
+        
+        json.append("]");
+        return json.toString();
+    }
+    
+    private static String historyEntryToJson(Map<String, Object> entry) {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+        json.append("\"id\":\"").append(entry.get("id")).append("\",");
+        json.append("\"timestamp\":\"").append(entry.get("timestamp")).append("\",");
+        json.append("\"creator_ip\":\"").append(entry.get("creator_ip")).append("\",");
+        json.append("\"version\":").append(entry.get("version")).append(",");
+        json.append("\"action\":\"").append(entry.get("action")).append("\",");
+        json.append("\"deleted\":").append(entry.get("deleted"));
+        if (entry.containsKey("note")) {
+            json.append(",\"note\":").append(Utils.toJsonString((String) entry.get("note")));
+        }
+        json.append("}");
+        return json.toString();
     }
 }

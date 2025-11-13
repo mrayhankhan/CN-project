@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste History</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Paste History</h1>
+            <a href="/" class="new-paste-link">Create New</a>
+        </div>
+        
+        <div class="history-container">
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time</th>
+                        <th>Creator IP</th>
+                        <th>Version</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body">
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="info">
+            <p>History shows the last 500 paste operations. Deleted pastes are marked but remain in history.</p>
+        </div>
+    </div>
+
+    <script src="/history.js"></script>
+</body>
+</html>

@@ -44,6 +44,12 @@ if [ ! -f src/data/counter.txt ]; then
     echo "✓ Created src/data/counter.txt with initial value 0"
 fi
 
+# Initialize history log file if it doesn't exist
+if [ ! -f data/history.log ]; then
+    touch data/history.log
+    echo "✓ Created data/history.log"
+fi
+
 echo ""
 
 # Run the server

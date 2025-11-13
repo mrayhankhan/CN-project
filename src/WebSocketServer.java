@@ -128,8 +128,11 @@ public class WebSocketServer {
                 if (opcode == 1) {
                     String message = new String(payload, "UTF-8");
                     
+                    // Get client IP
+                    String clientIp = socket.getInetAddress().getHostAddress();
+                    
                     // Update storage
-                    Storage.updatePaste(id, message);
+                    Storage.updatePaste(id, message, clientIp);
                     
                     // Broadcast to all clients except sender
                     broadcastExcept(id, message, socket);

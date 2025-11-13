@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 /**
  * Storage - Handles paste persistence using JSON files
@@ -32,7 +33,7 @@ public class Storage {
         }
     }
     
-    public static String createPaste(String text) {
+    public static String createPaste(String text, String creatorIp) {
         counterLock.lock();
         try {
             // Validate paste size
@@ -59,6 +60,9 @@ public class Storage {
             
             // Save paste with per-ID locking
             savePaste(id, text);
+            
+            // Append to history
+            StorageHistory.append(id, "create", 1, creatorIp, null);
             
             ServerLogger.log("Created paste: " + id);
             return id;
@@ -103,7 +107,7 @@ public class Storage {
         }
     }
     
-    public static boolean updatePaste(String id, String text) {
+    public static boolean updatePaste(String id, String text, String updaterIp) {
         try {
             // Validate ID format - prevent path traversal
             if (!isValidId(id)) {
@@ -124,8 +128,14 @@ public class Storage {
                 return false;
             }
             
+            // Get current version from history
+            int newVersion = getNextVersion(id);
+            
             // Update paste with per-ID locking
             savePaste(id, text);
+            
+            // Append to history
+            StorageHistory.append(id, "update", newVersion, updaterIp, null);
             
             ServerLogger.log("Updated paste: " + id);
             return true;
@@ -191,6 +201,18 @@ public class Storage {
      */
     private static ReentrantLock getIdLock(String id) {
         return idLocks.computeIfAbsent(id, k -> new ReentrantLock());
+    }
+    
+    /**
+     * Get next version number for a paste from history
+     */
+    private static int getNextVersion(String id) {
+        List<Map<String, Object>> history = StorageHistory.readById(id);
+        if (history.isEmpty()) {
+            return 1;
+        }
+        Map<String, Object> latest = history.get(history.size() - 1);
+        return ((Number) latest.get("version")).intValue() + 1;
     }
     
     private static String extractTextFromJson(String json) {
