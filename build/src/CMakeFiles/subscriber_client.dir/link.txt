@@ -1,1 +1,0 @@
-/usr/bin/clang++ -g CMakeFiles/subscriber_client.dir/client/subscriber_client.cpp.o -o subscriber_client  libcommon.a -lpthread 
