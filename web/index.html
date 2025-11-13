@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Market Data Stream Normalizer</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    pre { background: #f2f2f2; padding: 12px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Market Data Stream Normalizer</h1>
+  <p>Project summary</p>
+  <p>Server ports</p>
+  <ul>
+    <li>feed ingest port: 9000</li>
+    <li>subscriber port: 9100</li>
+    <li>admin http port: 9200</li>
+  </ul>
+  <h2>How to run</h2>
+  <pre>
+bash scripts/build.sh
+./build/ingest_server
+./build/feed_generator 1
+./build/subscriber_client
+  </pre>
+  <h2>Protocol summary</h2>
+  <pre>
+All messages framed with 4 byte big endian length then 1 byte type then payload
+type 0x01: feed tick binary
+type 0x10: subscribe request json
+  </pre>
+</body>
+</html>

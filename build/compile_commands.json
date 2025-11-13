@@ -1,0 +1,56 @@
+[
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/common.dir/common/serialization.cpp.o -c /workspaces/CN-project/src/common/serialization.cpp",
+  "file": "/workspaces/CN-project/src/common/serialization.cpp",
+  "output": "src/CMakeFiles/common.dir/common/serialization.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/ingest_server.dir/server/ingest_server.cpp.o -c /workspaces/CN-project/src/server/ingest_server.cpp",
+  "file": "/workspaces/CN-project/src/server/ingest_server.cpp",
+  "output": "src/CMakeFiles/ingest_server.dir/server/ingest_server.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/ingest_server.dir/server/normalizer.cpp.o -c /workspaces/CN-project/src/server/normalizer.cpp",
+  "file": "/workspaces/CN-project/src/server/normalizer.cpp",
+  "output": "src/CMakeFiles/ingest_server.dir/server/normalizer.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/ingest_server.dir/server/broadcaster.cpp.o -c /workspaces/CN-project/src/server/broadcaster.cpp",
+  "file": "/workspaces/CN-project/src/server/broadcaster.cpp",
+  "output": "src/CMakeFiles/ingest_server.dir/server/broadcaster.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/ingest_server.dir/server/persistence.cpp.o -c /workspaces/CN-project/src/server/persistence.cpp",
+  "file": "/workspaces/CN-project/src/server/persistence.cpp",
+  "output": "src/CMakeFiles/ingest_server.dir/server/persistence.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/ingest_server.dir/server/admin_http.cpp.o -c /workspaces/CN-project/src/server/admin_http.cpp",
+  "file": "/workspaces/CN-project/src/server/admin_http.cpp",
+  "output": "src/CMakeFiles/ingest_server.dir/server/admin_http.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/feed_generator.dir/feedgen/feed_generator.cpp.o -c /workspaces/CN-project/src/feedgen/feed_generator.cpp",
+  "file": "/workspaces/CN-project/src/feedgen/feed_generator.cpp",
+  "output": "src/CMakeFiles/feed_generator.dir/feedgen/feed_generator.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/src",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/subscriber_client.dir/client/subscriber_client.cpp.o -c /workspaces/CN-project/src/client/subscriber_client.cpp",
+  "file": "/workspaces/CN-project/src/client/subscriber_client.cpp",
+  "output": "src/CMakeFiles/subscriber_client.dir/client/subscriber_client.cpp.o"
+},
+{
+  "directory": "/workspaces/CN-project/build/tests",
+  "command": "/usr/bin/clang++  -I/workspaces/CN-project/src/common -g -std=gnu++17 -o CMakeFiles/test_serialization.dir/test_serialization.cpp.o -c /workspaces/CN-project/tests/test_serialization.cpp",
+  "file": "/workspaces/CN-project/tests/test_serialization.cpp",
+  "output": "tests/CMakeFiles/test_serialization.dir/test_serialization.cpp.o"
+}
+]

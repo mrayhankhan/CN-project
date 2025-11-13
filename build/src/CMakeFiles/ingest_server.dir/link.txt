@@ -1,0 +1,1 @@
+/usr/bin/clang++ -g CMakeFiles/ingest_server.dir/server/ingest_server.cpp.o CMakeFiles/ingest_server.dir/server/normalizer.cpp.o CMakeFiles/ingest_server.dir/server/broadcaster.cpp.o CMakeFiles/ingest_server.dir/server/persistence.cpp.o CMakeFiles/ingest_server.dir/server/admin_http.cpp.o -o ingest_server  libcommon.a -lpthread 

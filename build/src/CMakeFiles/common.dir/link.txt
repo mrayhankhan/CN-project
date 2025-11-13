@@ -1,0 +1,2 @@
+/usr/bin/llvm-ar qc libcommon.a CMakeFiles/common.dir/common/serialization.cpp.o
+/usr/bin/llvm-ranlib libcommon.a
