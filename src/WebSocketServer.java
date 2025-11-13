@@ -49,6 +49,15 @@ public class WebSocketServer {
             connections.computeIfAbsent(id, k -> ConcurrentHashMap.newKeySet()).add(socket);
             System.out.println("WebSocket connected for paste: " + id);
             
+            // Send initial content
+            String content = Storage.getPaste(id);
+            if (content != null) {
+                sendWebSocketMessage(socket, "{\"type\":\"init\",\"text\":" + Utils.toJsonString(content) + "}");
+            }
+            
+            // Broadcast updated user count to all clients
+            broadcastUserCount(id);
+            
             // Handle incoming messages
             handleWebSocketMessages(socket, id);
             
@@ -134,6 +143,9 @@ public class WebSocketServer {
             if (sockets != null) {
                 sockets.remove(socket);
                 System.out.println("WebSocket disconnected for paste: " + id);
+                
+                // Broadcast updated user count to remaining clients
+                broadcastUserCount(id);
             }
             try {
                 socket.close();
@@ -146,9 +158,10 @@ public class WebSocketServer {
     public static void broadcast(String id, String message) {
         Set<Socket> sockets = connections.get(id);
         if (sockets != null) {
+            String jsonMessage = "{\"type\":\"update\",\"text\":" + Utils.toJsonString(message) + "}";
             for (Socket socket : sockets) {
                 try {
-                    sendWebSocketMessage(socket, message);
+                    sendWebSocketMessage(socket, jsonMessage);
                 } catch (IOException e) {
                     // Remove dead connection
                     sockets.remove(socket);
@@ -160,14 +173,34 @@ public class WebSocketServer {
     private static void broadcastExcept(String id, String message, Socket except) {
         Set<Socket> sockets = connections.get(id);
         if (sockets != null) {
+            String jsonMessage = "{\"type\":\"update\",\"text\":" + Utils.toJsonString(message) + "}";
             for (Socket socket : sockets) {
                 if (socket != except) {
                     try {
-                        sendWebSocketMessage(socket, message);
+                        sendWebSocketMessage(socket, jsonMessage);
                     } catch (IOException e) {
                         // Remove dead connection
                         sockets.remove(socket);
                     }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Broadcast user count to all connected clients for a paste
+     */
+    private static void broadcastUserCount(String id) {
+        Set<Socket> sockets = connections.get(id);
+        if (sockets != null) {
+            int count = sockets.size();
+            String countMessage = "{\"type\":\"userCount\",\"count\":" + count + "}";
+            for (Socket socket : sockets) {
+                try {
+                    sendWebSocketMessage(socket, countMessage);
+                } catch (IOException e) {
+                    // Remove dead connection
+                    sockets.remove(socket);
                 }
             }
         }

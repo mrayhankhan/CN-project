@@ -10,6 +10,7 @@ const editButton = document.getElementById('edit-button');
 const saveButton = document.getElementById('save-button');
 const cancelButton = document.getElementById('cancel-button');
 const statusIndicator = document.getElementById('status-indicator');
+const userCountElement = document.getElementById('user-count');
 
 // State
 let isEditing = false;
@@ -47,6 +48,13 @@ function displayContent(content) {
     pasteDisplay.textContent = content;
 }
 
+// Update online users count
+function updateUserCount(count) {
+    if (userCountElement) {
+        userCountElement.textContent = count;
+    }
+}
+
 // Connect to WebSocket for real-time updates
 function connectWebSocket() {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -63,15 +71,33 @@ function connectWebSocket() {
         };
         
         ws.onmessage = (event) => {
-            const content = event.data;
-            
-            // Update display if not currently editing
-            if (!isEditing) {
-                originalContent = content;
-                displayContent(content);
-            } else {
-                // Update original content but don't override editor
-                originalContent = content;
+            try {
+                const message = JSON.parse(event.data);
+                
+                if (message.type === 'init' || message.type === 'update') {
+                    const content = message.text;
+                    
+                    // Update display if not currently editing
+                    if (!isEditing) {
+                        originalContent = content;
+                        displayContent(content);
+                    } else {
+                        // Update original content but don't override editor
+                        originalContent = content;
+                    }
+                } else if (message.type === 'userCount') {
+                    // Update online users count
+                    updateUserCount(message.count);
+                }
+            } catch (e) {
+                // Fallback for non-JSON messages (backward compatibility)
+                const content = event.data;
+                if (!isEditing) {
+                    originalContent = content;
+                    displayContent(content);
+                } else {
+                    originalContent = content;
+                }
             }
         };
         

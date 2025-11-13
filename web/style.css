@@ -38,6 +38,29 @@ body {
     font-weight: 600;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.online-users {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #4ade80;
+    padding: 6px 12px;
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.online-users #user-count {
+    font-weight: 600;
+}
+
 .header p {
     color: #888;
     font-size: 0.9rem;
