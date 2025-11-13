@@ -14,6 +14,26 @@ A lightweight, fully functional paste sharing application built entirely in pure
 
 ## Quick Start
 
+### Scripts Overview
+
+- **`init.sh`**: Initialize data directories and counter files (optional, run.sh does this automatically)
+- **`run.sh`**: Compile and start the server (required)
+- **`smoke_test.sh`**: Run basic functionality tests (recommended after deployment)
+
+### First Time Setup (Initialization)
+
+If you've just cloned the repository, run the initialization script to ensure all required directories and files exist:
+
+```bash
+chmod +x init.sh
+./init.sh
+```
+
+This will:
+- Create the `data/` directory if missing
+- Create `counter.txt` with initial value `0` if missing
+- Set up the directory structure needed for the server
+
 ### Running the Server
 
 ```bash
@@ -21,7 +41,91 @@ chmod +x run.sh
 ./run.sh
 ```
 
-The server will start on port 8080. Access it at `http://localhost:8080`
+The server will compile all Java files, initialize data structures, and start on port 8080.
+
+**Expected Output:**
+```
+============================================
+Minimal Collaborative Paste Service
+============================================
+
+Cleaning old build files...
+Compiling Java source files...
+Compilation successful!
+
+Initializing data structures...
+
+============================================
+
+Starting Minimal Collaborative Paste Service...
+Storage initialized
+============================================
+Server ready on port 8080
+============================================
+Access at http://localhost:8080
+Press Ctrl+C to stop
+```
+
+Access the application at `http://localhost:8080`
+
+**Note:** The `run.sh` script includes automatic initialization, so running `init.sh` separately is optional but recommended for first-time setup verification.
+
+### Testing the Server
+
+#### Basic Functionality Test
+
+After starting the server, run the smoke test to verify basic functionality:
+
+```bash
+# In a separate terminal (while server is running)
+chmod +x smoke_test.sh
+./smoke_test.sh
+```
+
+The smoke test performs:
+- POST request to `/create` with sample text (extracts paste ID from redirect Location header)
+- GET request to `/api/{id}` to retrieve the paste as JSON
+- Validates the server is working correctly
+
+#### Phase 3 Essential Testing Suite
+
+Run comprehensive tests to verify concurrency, WebSocket functionality, and reliability:
+
+```bash
+# Run all Phase 3 automated tests
+chmod +x run_phase3_tests.sh
+./run_phase3_tests.sh
+```
+
+This suite includes:
+
+1. **Concurrency Smoke Test** (`test_concurrency.sh`)
+   - Issues 10 concurrent PUT requests to the same paste ID
+   - Verifies per-ID locking prevents data corruption
+   - Checks for valid JSON after concurrent writes
+   - Ensures no temporary files are left behind
+
+2. **WebSocket Reconnect Test** (`test_websocket.sh`)
+   - Simulates client disconnect and reconnect
+   - Verifies clients receive current content after reconnection
+   - Tests network interruption recovery
+
+3. **Cross-Browser Manual Verification** (`CROSS_BROWSER_TESTING.md`)
+   - Detailed guide for manual cross-browser testing
+   - Desktop and mobile testing procedures
+   - WebSocket connection verification
+   - Multi-user collaboration testing
+
+Run individual tests:
+```bash
+chmod +x test_concurrency.sh
+./test_concurrency.sh
+
+chmod +x test_websocket.sh
+./test_websocket.sh
+```
+
+For cross-browser testing instructions, see: [CROSS_BROWSER_TESTING.md](CROSS_BROWSER_TESTING.md)
 
 ### Manual Compilation and Execution
 
@@ -30,6 +134,42 @@ javac src/*.java
 cd src
 java MainServer
 ```
+
+## Phase 2 Security Hardening
+
+The server includes essential security and reliability features:
+
+### 1. Paste Size Limit (HTTP 413)
+- Maximum paste size: **10 MB** (configurable via `Storage.MAX_PASTE_SIZE`)
+- Requests exceeding limit receive HTTP 413 "Payload Too Large"
+- Prevents memory exhaustion and abuse
+
+### 2. Safe File Naming
+- IDs strictly validated as 5-digit numbers (`^\d{5}$`)
+- File paths always constructed as `data/{id}.json`
+- Prevents path traversal attacks (e.g., `../../../etc/passwd`)
+
+### 3. Atomic Writes
+- Writes to temporary `.tmp` file then atomically renames
+- Uses `StandardCopyOption.ATOMIC_MOVE`
+- Prevents partial or corrupted files if server crashes during write
+
+### 4. Per-ID Locking
+- `ConcurrentHashMap<String, ReentrantLock>` for per-ID locks
+- Concurrent writes to different pastes proceed in parallel
+- Writes to same paste are serialized to prevent corruption
+
+### 5. Server Logging
+- Centralized logging to `server.log` file
+- Timestamped entries with severity levels (INFO, ERROR)
+- Full stack traces for debugging
+- Thread-safe synchronized writes
+
+### 6. Comprehensive Error Responses
+- **HTTP 400**: Bad Request (empty/malformed content)
+- **HTTP 404**: Not Found (invalid paste ID)
+- **HTTP 413**: Payload Too Large (exceeds size limit)
+- **HTTP 500**: Internal Server Error (with detailed logging)
 
 ## Architecture Overview
 
@@ -40,7 +180,8 @@ java MainServer
 3. **RequestHandler.java**: Routes HTTP requests to appropriate handlers (create, view, update)
 4. **WebSocketServer.java**: Implements WebSocket protocol (RFC 6455) for real-time collaboration
 5. **Storage.java**: Manages paste persistence using JSON files with thread-safe access
-6. **Utils.java**: Utility functions for HTML escaping and JSON encoding
+6. **ServerLogger.java**: Centralized logging facility for errors and important events
+7. **Utils.java**: Utility functions for HTML escaping and JSON encoding
 
 ### Frontend
 
@@ -158,22 +299,30 @@ The WebSocket implementation handles:
 ```
 /
 ├── src/
-│   ├── MainServer.java       # Entry point and connection router
-│   ├── HttpServer.java        # HTTP protocol handler
-│   ├── RequestHandler.java   # Request routing and handlers
-│   ├── WebSocketServer.java  # WebSocket protocol and collaboration
-│   ├── Storage.java           # Paste persistence
-│   └── Utils.java             # Utility functions
+│   ├── MainServer.java        # Entry point and connection router
+│   ├── HttpServer.java         # HTTP protocol handler
+│   ├── RequestHandler.java    # Request routing and handlers
+│   ├── WebSocketServer.java   # WebSocket protocol and collaboration
+│   ├── Storage.java            # Paste persistence with hardening
+│   ├── ServerLogger.java       # Centralized logging facility
+│   └── Utils.java              # Utility functions
 ├── web/
-│   ├── index.html             # Landing page
-│   ├── view.html              # Paste viewer/editor
-│   ├── app.js                 # Client-side logic
-│   └── style.css              # Styling
+│   ├── index.html              # Landing page
+│   ├── view.html               # Paste viewer/editor
+│   ├── app.js                  # Client-side logic
+│   └── style.css               # Styling
 ├── data/
-│   ├── counter.txt            # Paste counter
-│   └── *.json                 # Paste files (created at runtime)
-├── README.md                  # This file
-└── run.sh                     # Build and run script
+│   ├── counter.txt             # Paste counter
+│   └── *.json                  # Paste files (created at runtime)
+├── init.sh                     # Initialize directories and files
+├── run.sh                      # Build and run script
+├── smoke_test.sh               # Basic functionality test
+├── test_concurrency.sh         # Concurrency test (Phase 3)
+├── test_websocket.sh           # WebSocket reconnect test (Phase 3)
+├── run_phase3_tests.sh         # Run all Phase 3 tests
+├── CROSS_BROWSER_TESTING.md    # Manual testing guide
+├── server.log                  # Server logs (created at runtime)
+└── README.md                   # This file
 ```
 
 ## Development Notes

@@ -137,4 +137,51 @@ public class Utils {
         
         return sb.toString();
     }
+    
+    /**
+     * Parse URL-encoded form data and extract the 'text' parameter
+     */
+    public static String parseFormData(String body) {
+        if (body == null || body.isEmpty()) {
+            return "";
+        }
+        
+        // Look for text= parameter
+        String[] params = body.split("&");
+        for (String param : params) {
+            if (param.startsWith("text=")) {
+                String encoded = param.substring(5); // Remove "text="
+                return urlDecode(encoded);
+            }
+        }
+        
+        return "";
+    }
+    
+    /**
+     * URL decode a string (decode %XX and + to space)
+     */
+    public static String urlDecode(String encoded) {
+        if (encoded == null) return "";
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < encoded.length(); i++) {
+            char c = encoded.charAt(i);
+            if (c == '+') {
+                sb.append(' ');
+            } else if (c == '%' && i + 2 < encoded.length()) {
+                try {
+                    String hex = encoded.substring(i + 1, i + 3);
+                    int value = Integer.parseInt(hex, 16);
+                    sb.append((char) value);
+                    i += 2;
+                } catch (NumberFormatException e) {
+                    sb.append(c);
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
 }

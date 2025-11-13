@@ -19,8 +19,12 @@ public class MainServer {
         ExecutorService executor = Executors.newCachedThreadPool();
         
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Server running on port " + PORT);
+            System.out.println("============================================");
+            System.out.println("Server ready on port " + PORT);
+            System.out.println("============================================");
             System.out.println("Access at http://localhost:" + PORT);
+            System.out.println("Press Ctrl+C to stop");
+            System.out.println("");
             
             while (true) {
                 try {

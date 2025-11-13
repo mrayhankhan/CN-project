@@ -27,19 +27,26 @@ fi
 echo "Compilation successful!"
 echo ""
 
-# Create data directory if it doesn't exist
+# Initialize data directories and counter files
+echo "Initializing data structures..."
 mkdir -p data
+mkdir -p src/data
 
-# Initialize counter file if it doesn't exist
+# Initialize counter file in root data/ if it doesn't exist
 if [ ! -f data/counter.txt ]; then
     echo "0" > data/counter.txt
+    echo "✓ Created data/counter.txt with initial value 0"
 fi
 
-# Run the server
-echo "Starting server on port 8080..."
-echo "Access the application at: http://localhost:8080"
+# Initialize counter file in src/data/ if it doesn't exist
+if [ ! -f src/data/counter.txt ]; then
+    echo "0" > src/data/counter.txt
+    echo "✓ Created src/data/counter.txt with initial value 0"
+fi
+
 echo ""
-echo "Press Ctrl+C to stop the server"
+
+# Run the server
 echo "============================================"
 echo ""
 

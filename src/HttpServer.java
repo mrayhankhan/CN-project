@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.nio.file.*;
 
 /**
  * HttpServer - Handles HTTP requests
@@ -44,8 +43,7 @@ public class HttpServer {
             RequestHandler.handleRequest(socket, method, path, body);
             
         } catch (Exception e) {
-            System.err.println("Error handling HTTP request: " + e.getMessage());
-            e.printStackTrace();
+            ServerLogger.logError("Error handling HTTP request", e);
             try {
                 sendResponse(socket, 500, "text/plain", "Internal Server Error");
                 socket.close();
@@ -93,6 +91,7 @@ public class HttpServer {
             case 303: return "See Other";
             case 400: return "Bad Request";
             case 404: return "Not Found";
+            case 413: return "Payload Too Large";
             case 500: return "Internal Server Error";
             default: return "Unknown";
         }

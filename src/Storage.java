@@ -1,6 +1,7 @@
 import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.locks.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Storage - Handles paste persistence using JSON files
@@ -9,8 +10,9 @@ import java.util.concurrent.locks.*;
 public class Storage {
     private static final String DATA_DIR = "../data";
     private static final String COUNTER_FILE = DATA_DIR + "/counter.txt";
+    public static final int MAX_PASTE_SIZE = 10 * 1024 * 1024; // 10 MB limit
     private static final ReentrantLock counterLock = new ReentrantLock();
-    private static final ReentrantLock fileLock = new ReentrantLock();
+    private static final ConcurrentHashMap<String, ReentrantLock> idLocks = new ConcurrentHashMap<>();
     
     public static void initialize() {
         try {
@@ -33,26 +35,36 @@ public class Storage {
     public static String createPaste(String text) {
         counterLock.lock();
         try {
+            // Validate paste size
+            if (text == null || text.length() > MAX_PASTE_SIZE) {
+                ServerLogger.log("Rejected paste: size exceeds limit");
+                return null;
+            }
+            
             // Read current counter
             String counterStr = new String(Files.readAllBytes(Paths.get(COUNTER_FILE))).trim();
             int counter = Integer.parseInt(counterStr);
             counter++;
             
-            // Generate ID
+            // Generate ID - always 5 digits
             String id = String.format("%05d", counter);
+            
+            // Validate ID format (paranoid check)
+            if (!isValidId(id)) {
+                throw new IllegalStateException("Generated invalid ID: " + id);
+            }
             
             // Update counter
             Files.write(Paths.get(COUNTER_FILE), String.valueOf(counter).getBytes());
             
-            // Save paste
+            // Save paste with per-ID locking
             savePaste(id, text);
             
-            System.out.println("Created paste: " + id);
+            ServerLogger.log("Created paste: " + id);
             return id;
             
-        } catch (IOException e) {
-            System.err.println("Failed to create paste: " + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception e) {
+            ServerLogger.logError("Failed to create paste", e);
             return null;
         } finally {
             counterLock.unlock();
@@ -60,77 +72,125 @@ public class Storage {
     }
     
     public static String getPaste(String id) {
-        fileLock.lock();
         try {
-            // Validate ID format
-            if (!id.matches("\\d{5}")) {
+            // Validate ID format - prevent path traversal
+            if (!isValidId(id)) {
+                ServerLogger.log("Rejected invalid ID format: " + id);
                 return null;
             }
             
-            String filePath = DATA_DIR + "/" + id + ".json";
+            // Safe file naming - always data/{id}.json
+            String filePath = getSafeFilePath(id);
             File file = new File(filePath);
             
             if (!file.exists()) {
                 return null;
             }
             
-            // Read file
-            String json = new String(Files.readAllBytes(Paths.get(filePath)), "UTF-8");
+            // Read file with per-ID lock
+            ReentrantLock lock = getIdLock(id);
+            lock.lock();
+            try {
+                String json = new String(Files.readAllBytes(Paths.get(filePath)), "UTF-8");
+                return extractTextFromJson(json);
+            } finally {
+                lock.unlock();
+            }
             
-            // Parse JSON (simple extraction)
-            return extractTextFromJson(json);
-            
-        } catch (IOException e) {
-            System.err.println("Failed to get paste: " + e.getMessage());
+        } catch (Exception e) {
+            ServerLogger.logError("Failed to get paste: " + id, e);
             return null;
-        } finally {
-            fileLock.unlock();
         }
     }
     
     public static boolean updatePaste(String id, String text) {
-        fileLock.lock();
         try {
-            // Validate ID format
-            if (!id.matches("\\d{5}")) {
+            // Validate ID format - prevent path traversal
+            if (!isValidId(id)) {
+                ServerLogger.log("Rejected invalid ID format for update: " + id);
                 return false;
             }
             
-            String filePath = DATA_DIR + "/" + id + ".json";
+            // Validate paste size
+            if (text == null || text.length() > MAX_PASTE_SIZE) {
+                ServerLogger.log("Rejected update for " + id + ": size exceeds limit");
+                return false;
+            }
+            
+            String filePath = getSafeFilePath(id);
             File file = new File(filePath);
             
             if (!file.exists()) {
                 return false;
             }
             
-            // Update paste
+            // Update paste with per-ID locking
             savePaste(id, text);
             
-            System.out.println("Updated paste: " + id);
+            ServerLogger.log("Updated paste: " + id);
             return true;
             
-        } catch (IOException e) {
-            System.err.println("Failed to update paste: " + e.getMessage());
+        } catch (Exception e) {
+            ServerLogger.logError("Failed to update paste: " + id, e);
             return false;
-        } finally {
-            fileLock.unlock();
         }
     }
     
     private static void savePaste(String id, String text) throws IOException {
-        String filePath = DATA_DIR + "/" + id + ".json";
-        
-        // Create JSON object
-        StringBuilder json = new StringBuilder();
-        json.append("{\n");
-        json.append("  \"id\": \"").append(id).append("\",\n");
-        json.append("  \"text\": ").append(Utils.toJsonString(text)).append(",\n");
-        json.append("  \"timestamp\": ").append(System.currentTimeMillis()).append(",\n");
-        json.append("  \"version\": 1\n");
-        json.append("}");
-        
-        // Write to file
-        Files.write(Paths.get(filePath), json.toString().getBytes("UTF-8"));
+        // Get per-ID lock to serialize writes for this paste
+        ReentrantLock lock = getIdLock(id);
+        lock.lock();
+        try {
+            String filePath = getSafeFilePath(id);
+            
+            // Create JSON object
+            StringBuilder json = new StringBuilder();
+            json.append("{\n");
+            json.append("  \"id\": \"").append(id).append("\",\n");
+            json.append("  \"text\": ").append(Utils.toJsonString(text)).append(",\n");
+            json.append("  \"timestamp\": ").append(System.currentTimeMillis()).append(",\n");
+            json.append("  \"version\": 1\n");
+            json.append("}");
+            
+            // Atomic write: write to temp file then rename
+            String tempPath = filePath + ".tmp";
+            Files.write(Paths.get(tempPath), json.toString().getBytes("UTF-8"));
+            
+            // Atomic rename - prevents partial/corrupted files
+            Files.move(Paths.get(tempPath), Paths.get(filePath), 
+                      StandardCopyOption.REPLACE_EXISTING, 
+                      StandardCopyOption.ATOMIC_MOVE);
+        } finally {
+            lock.unlock();
+        }
+    }
+    
+    /**
+     * Validate ID format - must be exactly 5 digits
+     * Prevents path traversal attacks
+     */
+    private static boolean isValidId(String id) {
+        return id != null && id.matches("^\\d{5}$");
+    }
+    
+    /**
+     * Get safe file path - always data/{id}.json
+     * Never accepts user-supplied paths
+     */
+    private static String getSafeFilePath(String id) {
+        // Paranoid: double-check ID is valid
+        if (!isValidId(id)) {
+            throw new IllegalArgumentException("Invalid ID: " + id);
+        }
+        return DATA_DIR + "/" + id + ".json";
+    }
+    
+    /**
+     * Get or create a lock for a specific paste ID
+     * Enables per-ID write serialization
+     */
+    private static ReentrantLock getIdLock(String id) {
+        return idLocks.computeIfAbsent(id, k -> new ReentrantLock());
     }
     
     private static String extractTextFromJson(String json) {

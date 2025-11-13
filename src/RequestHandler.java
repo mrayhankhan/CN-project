@@ -69,20 +69,29 @@ public class RequestHandler {
     }
     
     private static void handleCreate(Socket socket, String body) throws IOException {
+        // Parse form data to extract text parameter
+        String text = Utils.parseFormData(body);
+        
         // Validate input
-        if (body == null || body.trim().isEmpty()) {
+        if (text == null || text.trim().isEmpty()) {
             HttpServer.sendResponse(socket, 400, "text/plain", "Empty paste content");
             return;
         }
         
-        // Limit paste size (1MB)
-        if (body.length() > 1024 * 1024) {
-            HttpServer.sendResponse(socket, 400, "text/plain", "Paste too large");
+        // Enforce paste size limit with HTTP 413
+        if (text.length() > Storage.MAX_PASTE_SIZE) {
+            HttpServer.sendResponse(socket, 413, "text/plain", 
+                "Paste too large. Maximum size: " + (Storage.MAX_PASTE_SIZE / (1024 * 1024)) + " MB");
             return;
         }
         
         // Create paste
-        String id = Storage.createPaste(body);
+        String id = Storage.createPaste(text);
+        
+        if (id == null) {
+            HttpServer.sendResponse(socket, 500, "text/plain", "Failed to create paste");
+            return;
+        }
         
         // Redirect to view page
         HttpServer.sendRedirect(socket, "/" + id);
@@ -108,9 +117,10 @@ public class RequestHandler {
             return;
         }
         
-        // Limit paste size
-        if (body.length() > 1024 * 1024) {
-            HttpServer.sendResponse(socket, 400, "text/plain", "Paste too large");
+        // Enforce paste size limit with HTTP 413
+        if (body.length() > Storage.MAX_PASTE_SIZE) {
+            HttpServer.sendResponse(socket, 413, "text/plain", 
+                "Paste too large. Maximum size: " + (Storage.MAX_PASTE_SIZE / (1024 * 1024)) + " MB");
             return;
         }
         
