@@ -1,3 +1,68 @@
+// Theme management
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('pasteTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    if (theme === 'dark') {
+        document.body.classList.add('darkTheme');
+        document.body.classList.remove('lightTheme');
+    } else {
+        document.body.classList.add('lightTheme');
+        document.body.classList.remove('darkTheme');
+    }
+    
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+}
+
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('darkTheme');
+    if (isDark) {
+        document.body.classList.remove('lightTheme');
+    } else {
+        document.body.classList.add('lightTheme');
+    }
+    localStorage.setItem('pasteTheme', isDark ? 'dark' : 'light');
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    }
+}
+
+// Adjust textarea height dynamically
+function adjustTextareaHeight() {
+    const textarea = document.getElementById('pasteInput') || document.getElementById('paste-editor');
+    if (textarea && textarea.parentElement) {
+        requestAnimationFrame(() => {
+            const container = textarea.closest('.editorContainer');
+            if (container) {
+                const rect = container.getBoundingClientRect();
+                const buttonContainer = container.querySelector('.button-container');
+                const buttonHeight = buttonContainer ? buttonContainer.offsetHeight : 0;
+                const availableHeight = rect.height - buttonHeight - 32;
+                if (availableHeight > 100) {
+                    textarea.style.height = availableHeight + 'px';
+                }
+            }
+        });
+    }
+}
+
+// Initialize theme on load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTheme);
+} else {
+    initializeTheme();
+}
+
+// Adjust height on resize
+window.addEventListener('resize', adjustTextareaHeight);
+window.addEventListener('load', adjustTextareaHeight);
+
 // Extract paste ID from URL
 const pasteId = window.location.pathname.substring(1);
 

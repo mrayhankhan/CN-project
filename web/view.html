@@ -7,24 +7,23 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Paste <span id="paste-id"></span></h1>
-            <div class="header-right">
-                <span id="online-users" class="online-users" title="Users viewing this paste">👥 <span id="user-count">0</span> online</span>
-                <a href="/history.html" class="new-paste-link">History</a>
-                <a href="/" class="new-paste-link">Create New</a>
-            </div>
+    <header class="page-header">
+        <h1 class="header-title">Paste <span id="paste-id"></span></h1>
+        <div class="header-actions">
+            <span id="online-users" class="online-users" title="Users viewing this paste">👥 <span id="user-count">0</span> online</span>
+            <a href="/history.html" class="header-link">History</a>
+            <a href="/" class="header-link">Create New</a>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
         </div>
-        
-        <div class="editor-container">
-            <div id="view-mode" class="view-mode">
-                <pre id="paste-display"></pre>
-            </div>
-            <textarea id="paste-editor" class="hidden"></textarea>
+    </header>
+    
+    <main class="editorContainer">
+        <div id="view-mode" class="view-mode">
+            <pre id="paste-display"></pre>
         </div>
+        <textarea id="paste-editor" class="hidden"></textarea>
         
-        <div class="actions">
+        <div class="button-container">
             <button id="edit-button" class="btn-secondary">Edit</button>
             <button id="save-button" class="btn-primary hidden">Save</button>
             <button id="cancel-button" class="btn-secondary hidden">Cancel</button>
@@ -34,7 +33,7 @@
         <div class="info">
             <p>Real-time collaborative editing enabled. Changes from other users will appear automatically.</p>
         </div>
-    </div>
+    </main>
 
     <script src="/app.js"></script>
 </body>

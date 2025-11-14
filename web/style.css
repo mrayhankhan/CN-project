@@ -1,3 +1,49 @@
+/* CSS Variables for theming */
+:root {
+    --colorBackground: #ffffff;
+    --colorSurface: #f5f5f5;
+    --colorText: #1a1a1a;
+    --colorAccent: #4a9eff;
+    --colorBorder: #d0d0d0;
+    --colorButtonHover: #3a8eef;
+    --colorSecondary: #666666;
+    --colorTableHeader: #e8e8e8;
+    --colorTableRow: #fafafa;
+    --colorDanger: #ef4444;
+    --colorSuccess: #4ade80;
+    --colorWarning: #fbbf24;
+}
+
+body.lightTheme {
+    --colorBackground: #ffffff;
+    --colorSurface: #f5f5f5;
+    --colorText: #1a1a1a;
+    --colorAccent: #4a9eff;
+    --colorBorder: #d0d0d0;
+    --colorButtonHover: #3a8eef;
+    --colorSecondary: #666666;
+    --colorTableHeader: #e8e8e8;
+    --colorTableRow: #fafafa;
+    --colorDanger: #ef4444;
+    --colorSuccess: #4ade80;
+    --colorWarning: #fbbf24;
+}
+
+body.darkTheme {
+    --colorBackground: #1a1a1a;
+    --colorSurface: #252525;
+    --colorText: #e0e0e0;
+    --colorAccent: #4a9eff;
+    --colorBorder: #333333;
+    --colorButtonHover: #3a8eef;
+    --colorSecondary: #888888;
+    --colorTableHeader: #2a2a2a;
+    --colorTableRow: #222222;
+    --colorDanger: #ef4444;
+    --colorSuccess: #4ade80;
+    --colorWarning: #fbbf24;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,43 +51,96 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #1a1a1a;
-    color: #e0e0e0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--colorBackground);
+    color: var(--colorText);
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+.page-header {
+    position: sticky;
+    top: 0;
+    height: 64px;
     width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 30px;
+    background: var(--colorSurface);
+    border-bottom: 1px solid var(--colorBorder);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.header h1 {
-    color: #4a9eff;
-    font-size: 2rem;
+.header-title {
+    color: var(--colorAccent);
+    font-size: 1.5rem;
     font-weight: 600;
+    margin: 0;
 }
 
-.header-right {
+.header-actions {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+}
+
+.header-link {
+    color: var(--colorAccent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border: 1px solid var(--colorAccent);
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.header-link:hover {
+    background: var(--colorAccent);
+    color: var(--colorBackground);
+}
+
+.theme-toggle {
+    background: var(--colorSurface);
+    color: var(--colorText);
+    border: 1px solid var(--colorBorder);
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+    background: var(--colorAccent);
+    color: var(--colorBackground);
+    border-color: var(--colorAccent);
+}
+
+.theme-toggle:focus {
+    outline: 2px solid var(--colorAccent);
+    outline-offset: 2px;
+}
+
+.editorContainer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+    padding: 20px;
+    gap: 12px;
+}
+
+.editorContainer form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 .online-users {
@@ -49,7 +148,7 @@ body {
     align-items: center;
     gap: 5px;
     font-size: 0.9rem;
-    color: #4ade80;
+    color: var(--colorSuccess);
     padding: 6px 12px;
     background: rgba(74, 222, 128, 0.1);
     border: 1px solid rgba(74, 222, 128, 0.3);
@@ -61,115 +160,293 @@ body {
     font-weight: 600;
 }
 
+/* History page styles */
+.historyContainer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+    padding: 20px;
+    gap: 16px;
+}
+
+.table-wrapper {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid var(--colorBorder);
+    border-radius: 6px;
+    background: var(--colorSurface);
+}
+
+#history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#history-table thead {
+    position: sticky;
+    top: 0;
+    background: var(--colorTableHeader);
+    z-index: 10;
+}
+
+#history-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--colorText);
+    border-bottom: 2px solid var(--colorBorder);
+    white-space: nowrap;
+}
+
+#history-table tbody tr {
+    background: var(--colorSurface);
+    border-bottom: 1px solid var(--colorBorder);
+    transition: background-color 0.2s;
+}
+
+#history-table tbody tr:nth-child(even) {
+    background: var(--colorTableRow);
+}
+
+#history-table tbody tr:hover {
+    background: var(--colorBorder);
+}
+
+#history-table tbody tr.deleted-row {
+    opacity: 0.6;
+}
+
+#history-table td {
+    padding: 10px 16px;
+    color: var(--colorText);
+}
+
+.paste-link {
+    color: var(--colorAccent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.paste-link:hover {
+    text-decoration: underline;
+}
+
+.action-cell {
+    text-transform: capitalize;
+}
+
+.action-create {
+    color: var(--colorSuccess);
+}
+
+.action-update {
+    color: var(--colorWarning);
+}
+
+.action-delete {
+    color: var(--colorDanger);
+}
+
+.status-active {
+    color: var(--colorSuccess);
+}
+
+.status-deleted {
+    color: var(--colorDanger);
+}
+
+.empty-cell,
+.error-cell {
+    text-align: center;
+    padding: 40px 16px;
+    color: var(--colorSecondary);
+}
+
+.error-cell {
+    color: var(--colorDanger);
+}
+
+.btn-delete {
+    background: var(--colorDanger);
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.btn-delete:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn-delete:focus {
+    outline: 2px solid var(--colorDanger);
+    outline-offset: 2px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .page-header {
+        height: auto;
+        min-height: 64px;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+    }
+    
+    .header-title {
+        font-size: 1.2rem;
+    }
+    
+    .header-actions {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .editorContainer {
+        height: calc(100vh - 80px);
+        padding: 12px;
+    }
+    
+    textarea,
+    #pasteInput {
+        font-size: 16px;
+    }
+    
+    .historyContainer {
+        height: calc(100vh - 80px);
+        padding: 12px;
+    }
+    
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    
+    #history-table {
+        font-size: 13px;
+    }
+    
+    #history-table th,
+    #history-table td {
+        padding: 8px 12px;
+    }
+}
+
 .header p {
-    color: #888;
+    color: var(--colorSecondary);
     font-size: 0.9rem;
     margin-top: 5px;
 }
 
 .new-paste-link {
-    color: #4a9eff;
+    color: var(--colorAccent);
     text-decoration: none;
     font-size: 0.9rem;
     padding: 8px 16px;
-    border: 1px solid #4a9eff;
+    border: 1px solid var(--colorAccent);
     border-radius: 4px;
     transition: all 0.2s;
 }
 
 .new-paste-link:hover {
-    background: #4a9eff;
-    color: #1a1a1a;
+    background: var(--colorAccent);
+    color: var(--colorBackground);
 }
 
-.editor-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    border: 1px solid #333;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #252525;
-}
-
-textarea {
+textarea,
+#pasteInput {
     width: 100%;
-    height: 100%;
-    min-height: 400px;
-    padding: 20px;
-    background: #252525;
-    color: #e0e0e0;
-    border: none;
-    font-family: 'Courier New', monospace;
+    flex: 1;
+    padding: 16px;
+    background: var(--colorSurface);
+    color: var(--colorText);
+    border: 1px solid var(--colorBorder);
+    border-radius: 6px;
+    font-family: 'Courier New', Consolas, Monaco, monospace;
     font-size: 14px;
+    line-height: 1.5;
     resize: none;
+    overflow: auto;
     outline: none;
+    transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+}
+
+textarea:focus,
+#pasteInput:focus {
+    border-color: var(--colorAccent);
 }
 
 textarea::placeholder {
-    color: #555;
+    color: var(--colorSecondary);
 }
 
 .view-mode {
-    padding: 20px;
-    overflow-y: auto;
     flex: 1;
-    min-height: 400px;
+    padding: 16px;
+    overflow: auto;
+    background: var(--colorSurface);
+    border: 1px solid var(--colorBorder);
+    border-radius: 6px;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .view-mode pre {
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-family: 'Courier New', monospace;
+    font-family: 'Courier New', Consolas, Monaco, monospace;
     font-size: 14px;
-    color: #e0e0e0;
+    color: var(--colorText);
     margin: 0;
+    line-height: 1.5;
 }
 
-.actions {
+.button-container {
     display: flex;
-    gap: 10px;
     justify-content: center;
-    align-items: center;
-    padding: 10px 0;
+    gap: 10px;
+    padding: 8px 0;
 }
 
 button {
-    padding: 12px 30px;
-    font-size: 16px;
+    padding: 10px 24px;
+    font-size: 15px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
     font-weight: 500;
+    font-family: inherit;
 }
 
 .btn-primary {
-    background: #4a9eff;
-    color: #fff;
+    background: var(--colorAccent);
+    color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: #3a8eef;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+    background: var(--colorButtonHover);
+    transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-    background: #555;
+    background: var(--colorSecondary);
     cursor: not-allowed;
     opacity: 0.6;
 }
 
 .btn-secondary {
-    background: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
+    background: var(--colorSurface);
+    color: var(--colorText);
+    border: 1px solid var(--colorBorder);
 }
 
 .btn-secondary:hover {
-    background: #444;
+    background: var(--colorBorder);
 }
 
 .hidden {
@@ -178,81 +455,39 @@ button {
 
 #status-indicator {
     font-size: 0.9rem;
-    color: #888;
+    color: var(--colorSecondary);
     margin-left: 10px;
 }
 
 #status-indicator.connected {
-    color: #4ade80;
+    color: var(--colorSuccess);
 }
 
 #status-indicator.disconnected {
-    color: #ef4444;
+    color: var(--colorDanger);
 }
 
 .info {
     text-align: center;
-    margin-top: 20px;
-    padding: 15px;
-    background: #252525;
+    padding: 12px;
+    background: var(--colorSurface);
     border-radius: 6px;
-    border: 1px solid #333;
+    border: 1px solid var(--colorBorder);
+    font-size: 0.9rem;
+    color: var(--colorSecondary);
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .info p {
-    color: #888;
+    color: var(--colorSecondary);
     font-size: 0.85rem;
 }
 
-/* History table styles */
+/* History table styles - DEPRECATED: These are replaced by the table styles above */
+/* Keeping for backwards compatibility but variables will override */
 .history-container {
     overflow-x: auto;
     margin-bottom: 20px;
-}
-
-#history-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #252525;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-#history-table thead {
-    background: #2a2a2a;
-}
-
-#history-table th {
-    padding: 12px;
-    text-align: left;
-    color: #4a9eff;
-    font-weight: 600;
-    border-bottom: 2px solid #333;
-}
-
-#history-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #333;
-    color: #e0e0e0;
-}
-
-#history-table tbody tr:hover {
-    background: #2a2a2a;
-}
-
-.btn-delete {
-    padding: 4px 12px;
-    background: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background 0.2s;
-}
-
-.btn-delete:hover {
-    background: #dc2626;
 }
 
 @media (max-width: 768px) {

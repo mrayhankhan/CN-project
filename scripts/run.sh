@@ -7,8 +7,8 @@ echo "Minimal Collaborative Paste Service"
 echo "============================================"
 echo ""
 
-# Navigate to script directory
-cd "$(dirname "$0")"
+# Navigate to project root directory
+cd "$(dirname "$0")/.."
 
 # Clean up old class files
 echo "Cleaning old build files..."

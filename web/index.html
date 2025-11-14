@@ -7,73 +7,48 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Minimal Paste Service</h1>
-            <div class="header-right">
-                <a href="/history.html" class="new-paste-link" style="margin-right: 10px;">History</a>
-            </div>
-            <p>Share text snippets instantly</p>
+    <!-- Testing: Open in browser, toggle Theme button (colors switch and persist after reload), paste long text and confirm it scrolls inside textarea without page scrolling, resize browser and confirm layout works on mobile -->
+    <header class="page-header">
+        <h1 class="header-title">Minimal Paste Service</h1>
+        <div class="header-actions">
+            <a href="/history.html" class="header-link">History</a>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
         </div>
-        
-        <div class="editor-container">
-            <textarea id="paste-content" placeholder="Paste your text here..." autofocus></textarea>
+    </header>
+    
+    <main class="editorContainer">
+        <form id="paste-form" method="POST" action="/create">
+            <textarea id="pasteInput" name="text" placeholder="Paste your text here..." autofocus></textarea>
+        </form>
+        <div class="button-container">
+            <button id="goButton" class="btn-primary" type="submit" form="paste-form">Go</button>
         </div>
-        
-        <div class="actions">
-            <button id="go-button" class="btn-primary">Go</button>
-        </div>
-    </div>
+    </main>
 
+    <script src="/app.js"></script>
     <script>
-        const textarea = document.getElementById('paste-content');
-        const goButton = document.getElementById('go-button');
+        const textarea = document.getElementById('pasteInput');
+        const form = document.getElementById('paste-form');
+        const goButton = document.getElementById('goButton');
 
-        // Handle Go button click
-        goButton.addEventListener('click', async () => {
+        // Handle form submission
+        form.addEventListener('submit', (e) => {
             const content = textarea.value.trim();
             
             if (!content) {
+                e.preventDefault();
                 alert('Please enter some text');
                 return;
             }
-
+            
             goButton.disabled = true;
             goButton.textContent = 'Creating...';
-
-            try {
-                const response = await fetch('/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'text=' + encodeURIComponent(content)
-                });
-
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else {
-                    // Manual redirect for some browsers
-                    const location = response.headers.get('Location');
-                    if (location) {
-                        window.location.href = location;
-                    } else {
-                        // Extract from response or just reload
-                        window.location.reload();
-                    }
-                }
-            } catch (error) {
-                console.error('Error creating paste:', error);
-                alert('Failed to create paste');
-                goButton.disabled = false;
-                goButton.textContent = 'Go';
-            }
         });
 
         // Allow Ctrl+Enter to submit
         textarea.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
-                goButton.click();
+                form.submit();
             }
         });
     </script>

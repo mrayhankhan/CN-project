@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Paste History</h1>
-            <a href="/" class="new-paste-link">Create New</a>
+    <!-- Testing: (1) Open history.html (2) Confirm header shows title left and Theme/Create New right (3) Toggle theme and reload, confirm theme persists (4) Shrink viewport, confirm table scrolls and header stays visible (5) Confirm Create New button does not overlap table (6) Confirm delete buttons work and table styling changes with theme -->
+    <header class="page-header">
+        <h1 class="header-title">Paste History</h1>
+        <div class="header-actions">
+            <a href="/" class="header-link">Create New</a>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
         </div>
-        
-        <div class="history-container">
+    </header>
+    
+    <main class="historyContainer">
+        <div class="table-wrapper">
             <table id="history-table">
                 <thead>
                     <tr>
@@ -37,8 +41,9 @@
         <div class="info">
             <p>History shows the last 500 paste operations. Deleted pastes are marked but remain in history.</p>
         </div>
-    </div>
+    </main>
 
+    <script src="/app.js"></script>
     <script src="/history.js"></script>
 </body>
 </html>

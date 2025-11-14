@@ -1,4 +1,4 @@
-# Cross-Browser Manual Verification Guide
+# Cross-Browser Compatibility Testing
 
 ## Overview
 This guide walks you through manual cross-browser testing to verify real-time collaboration features work correctly across different browsers and devices.

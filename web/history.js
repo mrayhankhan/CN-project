@@ -1,3 +1,5 @@
+// Testing: (1) Open history.html (2) Confirm header shows title left and Theme/Create New right (3) Toggle theme and reload, confirm theme persists (4) Shrink viewport, confirm table scrolls and header stays visible (5) Confirm Create New button does not overlap table (6) Confirm delete buttons work and table styling changes with theme
+
 // Fetch and display history
 async function loadHistory() {
     try {
@@ -11,7 +13,7 @@ async function loadHistory() {
     } catch (error) {
         console.error('Error loading history:', error);
         document.getElementById('history-body').innerHTML = 
-            '<tr><td colspan="7" style="text-align: center; color: #ef4444;">Error loading history</td></tr>';
+            '<tr><td colspan="7" class="error-cell">Error loading history</td></tr>';
     }
 }
 
@@ -20,7 +22,7 @@ function displayHistory(history) {
     const tbody = document.getElementById('history-body');
     
     if (history.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No history entries found</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-cell">No history entries found</td></tr>';
         return;
     }
     
@@ -28,14 +30,16 @@ function displayHistory(history) {
     
     history.forEach(entry => {
         const row = document.createElement('tr');
+        if (entry.deleted) {
+            row.classList.add('deleted-row');
+        }
         
         // ID column with link
         const idCell = document.createElement('td');
         const idLink = document.createElement('a');
         idLink.href = '/' + entry.id;
         idLink.textContent = entry.id;
-        idLink.style.color = '#4a9eff';
-        idLink.style.textDecoration = 'none';
+        idLink.classList.add('paste-link');
         idCell.appendChild(idLink);
         row.appendChild(idCell);
         
@@ -58,25 +62,18 @@ function displayHistory(history) {
         // Action column
         const actionCell = document.createElement('td');
         actionCell.textContent = entry.action;
-        actionCell.style.textTransform = 'capitalize';
-        if (entry.action === 'create') {
-            actionCell.style.color = '#4ade80';
-        } else if (entry.action === 'update') {
-            actionCell.style.color = '#fbbf24';
-        } else if (entry.action === 'delete') {
-            actionCell.style.color = '#ef4444';
-        }
+        actionCell.classList.add('action-cell', 'action-' + entry.action);
         row.appendChild(actionCell);
         
         // Status column
         const statusCell = document.createElement('td');
+        statusCell.classList.add('status-cell');
         if (entry.deleted) {
             statusCell.textContent = 'Deleted';
-            statusCell.style.color = '#ef4444';
-            row.style.opacity = '0.6';
+            statusCell.classList.add('status-deleted');
         } else {
             statusCell.textContent = 'Active';
-            statusCell.style.color = '#4ade80';
+            statusCell.classList.add('status-active');
         }
         row.appendChild(statusCell);
         
@@ -121,4 +118,8 @@ async function deletePaste(id) {
 }
 
 // Load history on page load
-document.addEventListener('DOMContentLoaded', loadHistory);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadHistory);
+} else {
+    loadHistory();
+}

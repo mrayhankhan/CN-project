@@ -1,45 +1,61 @@
-[2025-11-13 17:22:27] [INFO] Created paste: 00006
-[2025-11-13 17:41:56] [INFO] Created paste: 00007
-[2025-11-13 17:42:08] [INFO] Created paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:08] [INFO] Updated paste: 00008
-[2025-11-13 17:42:12] [INFO] Created paste: 00009
-[2025-11-13 17:42:14] [INFO] Updated paste: 00009
-[2025-11-13 17:42:47] [INFO] Created paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:47] [INFO] Updated paste: 00010
-[2025-11-13 17:42:56] [INFO] Created paste: 00011
-[2025-11-13 17:42:58] [INFO] Updated paste: 00011
-[2025-11-13 17:43:54] [INFO] Created paste: 00012
-[2025-11-13 17:58:17] [INFO] Created paste: 00013
-[2025-11-13 18:08:28] [INFO] Created paste: 00014
-[2025-11-13 18:26:25] [INFO] History: create for paste 00015 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:26:25] [INFO] Created paste: 00015
-[2025-11-13 18:31:10] [INFO] History: create for paste 00016 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:31:10] [INFO] Created paste: 00016
-[2025-11-13 18:31:28] [INFO] History: delete for paste 00016 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:31:28] [INFO] Paste 00016 marked as deleted by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:23] [INFO] History: create for paste 00017 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:23] [INFO] Created paste: 00017
-[2025-11-13 18:36:41] [INFO] History: delete for paste 00014 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:41] [INFO] Paste 00014 marked as deleted by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:44] [INFO] History: delete for paste 00013 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:44] [INFO] Paste 00013 marked as deleted by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:48] [INFO] History: delete for paste 00012 by 0:0:0:0:0:0:0:1
-[2025-11-13 18:36:48] [INFO] Paste 00012 marked as deleted by 0:0:0:0:0:0:0:1
+[2025-11-14 04:14:54] [ERROR] Failed to create paste
+  Exception: java.lang.NumberFormatException: For input string: ""
+  java.lang.NumberFormatException: For input string: ""
+  	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+  	at java.base/java.lang.Integer.parseInt(Integer.java:672)
+  	at java.base/java.lang.Integer.parseInt(Integer.java:778)
+  	at Storage.createPaste(Storage.java:47)
+  	at RequestHandler.handleCreate(RequestHandler.java:113)
+  	at RequestHandler.handleRequest(RequestHandler.java:29)
+  	at HttpServer.handleHttpRequest(HttpServer.java:43)
+  	at MainServer.handleConnection(MainServer.java:64)
+  	at MainServer.lambda$main$0(MainServer.java:33)
+  	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+  	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+  	at java.base/java.lang.Thread.run(Thread.java:1583)
+[2025-11-14 04:15:09] [ERROR] Failed to create paste
+  Exception: java.lang.NumberFormatException: For input string: ""
+  java.lang.NumberFormatException: For input string: ""
+  	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+  	at java.base/java.lang.Integer.parseInt(Integer.java:672)
+  	at java.base/java.lang.Integer.parseInt(Integer.java:778)
+  	at Storage.createPaste(Storage.java:47)
+  	at RequestHandler.handleCreate(RequestHandler.java:113)
+  	at RequestHandler.handleRequest(RequestHandler.java:29)
+  	at HttpServer.handleHttpRequest(HttpServer.java:43)
+  	at MainServer.handleConnection(MainServer.java:64)
+  	at MainServer.lambda$main$0(MainServer.java:33)
+  	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+  	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+  	at java.base/java.lang.Thread.run(Thread.java:1583)
+[2025-11-14 04:17:30] [ERROR] Failed to create paste
+  Exception: java.lang.NumberFormatException: For input string: ""
+  java.lang.NumberFormatException: For input string: ""
+  	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+  	at java.base/java.lang.Integer.parseInt(Integer.java:672)
+  	at java.base/java.lang.Integer.parseInt(Integer.java:778)
+  	at Storage.createPaste(Storage.java:47)
+  	at RequestHandler.handleCreate(RequestHandler.java:113)
+  	at RequestHandler.handleRequest(RequestHandler.java:29)
+  	at HttpServer.handleHttpRequest(HttpServer.java:43)
+  	at MainServer.handleConnection(MainServer.java:64)
+  	at MainServer.lambda$main$0(MainServer.java:33)
+  	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+  	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+  	at java.base/java.lang.Thread.run(Thread.java:1583)
+[2025-11-14 04:19:32] [INFO] History: create for paste 00001 by 0:0:0:0:0:0:0:1
+[2025-11-14 04:19:32] [INFO] Created paste: 00001
+[2025-11-14 04:20:11] [INFO] History: create for paste 00002 by 0:0:0:0:0:0:0:1
+[2025-11-14 04:20:11] [INFO] Created paste: 00002
+[2025-11-14 04:22:10] [INFO] History: create for paste 00003 by 0:0:0:0:0:0:0:1
+[2025-11-14 04:22:10] [INFO] Created paste: 00003
+[2025-11-14 04:31:37] [INFO] History: create for paste 00004 by 0:0:0:0:0:0:0:1
+[2025-11-14 04:31:37] [INFO] Created paste: 00004
+[2025-11-14 08:41:12] [INFO] History: delete for paste 00003 by 0:0:0:0:0:0:0:1
+[2025-11-14 08:41:12] [INFO] Paste 00003 marked as deleted by 0:0:0:0:0:0:0:1
