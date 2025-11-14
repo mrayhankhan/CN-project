@@ -127,6 +127,35 @@ body {
     outline-offset: 2px;
 }
 
+.info-button {
+    background: var(--colorSurface);
+    color: var(--colorAccent);
+    border: 1px solid var(--colorAccent);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: serif;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-button:hover {
+    background: var(--colorAccent);
+    color: var(--colorBackground);
+    transform: scale(1.05);
+}
+
+.info-button:focus {
+    outline: 2px solid var(--colorAccent);
+    outline-offset: 2px;
+}
+
 .editorContainer {
     display: flex;
     flex-direction: column;
@@ -223,6 +252,16 @@ body {
     color: var(--colorText);
 }
 
+#history-table td.status-active {
+    color: var(--colorSuccess) !important;
+    font-weight: 600;
+}
+
+#history-table td.status-deleted {
+    color: var(--colorDanger) !important;
+    font-weight: 600;
+}
+
 .paste-link {
     color: var(--colorAccent);
     text-decoration: none;
@@ -239,22 +278,27 @@ body {
 
 .action-create {
     color: var(--colorSuccess);
+    font-weight: 600;
 }
 
 .action-update {
     color: var(--colorWarning);
+    font-weight: 600;
 }
 
 .action-delete {
     color: var(--colorDanger);
+    font-weight: 600;
 }
 
 .status-active {
     color: var(--colorSuccess);
+    font-weight: 600;
 }
 
 .status-deleted {
     color: var(--colorDanger);
+    font-weight: 600;
 }
 
 .empty-cell,
@@ -412,6 +456,17 @@ textarea::placeholder {
     padding: 8px 0;
 }
 
+.deleted-banner {
+    background: var(--colorDanger);
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+    border: 2px solid rgba(220, 38, 38, 0.3);
+}
+
 button {
     padding: 10px 24px;
     font-size: 15px;
@@ -487,8 +542,131 @@ button {
 /* Keeping for backwards compatibility but variables will override */
 .history-container {
     overflow-x: auto;
-    margin-bottom: 20px;
 }
+
+/* About Page Styles */
+.about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: calc(100vh - 64px);
+}
+
+.about-content {
+    background: var(--colorSurface);
+    border: 1px solid var(--colorBorder);
+    border-radius: 8px;
+    padding: 32px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.about-section {
+    margin-bottom: 32px;
+}
+
+.about-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.about-section h2 {
+    color: var(--colorAccent);
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.about-section h3 {
+    color: var(--colorText);
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--colorBorder);
+    padding-bottom: 6px;
+}
+
+.about-section p {
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+
+.about-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.about-section ul li {
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.about-section ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 4px;
+    color: var(--colorAccent);
+    font-weight: bold;
+}
+
+.about-section pre {
+    background: var(--colorBackground);
+    border: 1px solid var(--colorBorder);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.about-section code {
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--colorText);
+}
+
+.about-section a {
+    color: var(--colorAccent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.about-section a:hover {
+    border-bottom-color: var(--colorAccent);
+}
+
+.about-footer {
+    border-top: 1px solid var(--colorBorder);
+    padding-top: 20px;
+    text-align: center;
+}
+
+.about-footer small {
+    color: var(--colorSecondary);
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        padding: 20px 12px;
+    }
+    
+    .about-content {
+        padding: 20px;
+    }
+    
+    .about-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .about-section h3 {
+        font-size: 1.1rem;
+    }
+    
+    .about-section pre {
+        font-size: 0.8rem;
+        padding: 12px;
+    }
+}
+
 
 @media (max-width: 768px) {
     .container {

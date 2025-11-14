@@ -91,6 +91,7 @@ public class HttpServer {
             case 303: return "See Other";
             case 400: return "Bad Request";
             case 404: return "Not Found";
+            case 410: return "Gone";
             case 413: return "Payload Too Large";
             case 500: return "Internal Server Error";
             default: return "Unknown";

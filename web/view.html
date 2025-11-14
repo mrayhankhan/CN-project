@@ -11,6 +11,7 @@
         <h1 class="header-title">Paste <span id="paste-id"></span></h1>
         <div class="header-actions">
             <span id="online-users" class="online-users" title="Users viewing this paste">👥 <span id="user-count">0</span> online</span>
+            <button id="infoButton" class="info-button" aria-label="Info about project"><i>i</i></button>
             <a href="/history.html" class="header-link">History</a>
             <a href="/" class="header-link">Create New</a>
             <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
@@ -18,6 +19,10 @@
     </header>
     
     <main class="editorContainer">
+        <div id="deletedBanner" class="deleted-banner hidden">
+            <strong>⚠️ This paste is deleted and read-only</strong>
+        </div>
+        
         <div id="view-mode" class="view-mode">
             <pre id="paste-display"></pre>
         </div>

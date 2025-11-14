@@ -34,13 +34,20 @@ function displayHistory(history) {
             row.classList.add('deleted-row');
         }
         
-        // ID column with link
+        // ID column with link (disabled for deleted pastes)
         const idCell = document.createElement('td');
-        const idLink = document.createElement('a');
-        idLink.href = '/' + entry.id;
-        idLink.textContent = entry.id;
-        idLink.classList.add('paste-link');
-        idCell.appendChild(idLink);
+        if (entry.deleted) {
+            // Show ID as plain text for deleted pastes
+            idCell.textContent = entry.id;
+            idCell.style.color = 'var(--colorSecondary)';
+        } else {
+            // Show clickable link for active pastes
+            const idLink = document.createElement('a');
+            idLink.href = '/' + entry.id;
+            idLink.textContent = entry.id;
+            idLink.classList.add('paste-link');
+            idCell.appendChild(idLink);
+        }
         row.appendChild(idCell);
         
         // Time column

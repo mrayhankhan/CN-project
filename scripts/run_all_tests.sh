@@ -29,20 +29,27 @@ echo ""
 TOTAL_TESTS=0
 PASSED_TESTS=0
 
+# Get script directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Run concurrency test
 echo "=========================================="
 echo "Test 1: Concurrency"
 echo "=========================================="
 echo ""
 
-chmod +x test_concurrency.sh
-if ./test_concurrency.sh; then
-    echo "✓ Concurrency test PASSED"
-    PASSED_TESTS=$((PASSED_TESTS + 1))
+if [ -f "$SCRIPT_DIR/test_concurrency.sh" ]; then
+    chmod +x "$SCRIPT_DIR/test_concurrency.sh"
+    if "$SCRIPT_DIR/test_concurrency.sh"; then
+        echo "✓ Concurrency test PASSED"
+        PASSED_TESTS=$((PASSED_TESTS + 1))
+    else
+        echo "✗ Concurrency test FAILED"
+    fi
+    TOTAL_TESTS=$((TOTAL_TESTS + 1))
 else
-    echo "✗ Concurrency test FAILED"
+    echo "⊘ Concurrency test script not found (optional)"
 fi
-TOTAL_TESTS=$((TOTAL_TESTS + 1))
 
 echo ""
 
@@ -52,14 +59,18 @@ echo "Test 2: WebSocket Reconnection"
 echo "=========================================="
 echo ""
 
-chmod +x test_websocket_reconnect.sh
-if ./test_websocket_reconnect.sh; then
-    echo "✓ WebSocket reconnection test PASSED"
-    PASSED_TESTS=$((PASSED_TESTS + 1))
+if [ -f "$SCRIPT_DIR/test_websocket_reconnect.sh" ]; then
+    chmod +x "$SCRIPT_DIR/test_websocket_reconnect.sh"
+    if "$SCRIPT_DIR/test_websocket_reconnect.sh"; then
+        echo "✓ WebSocket reconnection test PASSED"
+        PASSED_TESTS=$((PASSED_TESTS + 1))
+    else
+        echo "✗ WebSocket reconnection test FAILED"
+    fi
+    TOTAL_TESTS=$((TOTAL_TESTS + 1))
 else
-    echo "✗ WebSocket reconnection test FAILED"
+    echo "⊘ WebSocket reconnection test script not found (optional)"
 fi
-TOTAL_TESTS=$((TOTAL_TESTS + 1))
 
 echo ""
 

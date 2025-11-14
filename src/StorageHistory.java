@@ -156,6 +156,27 @@ public class StorageHistory {
     }
     
     /**
+     * Check if a paste is deleted (last action is delete)
+     */
+    public static boolean isDeleted(String id) {
+        historyLock.lock();
+        try {
+            List<Map<String, Object>> history = readById(id);
+            if (history.isEmpty()) {
+                return false;
+            }
+            
+            // Check the last action for this ID
+            Map<String, Object> lastEntry = history.get(history.size() - 1);
+            Boolean deleted = (Boolean) lastEntry.get("deleted");
+            return deleted != null && deleted;
+            
+        } finally {
+            historyLock.unlock();
+        }
+    }
+    
+    /**
      * Mark a paste as deleted by appending a delete action
      */
     public static void markDelete(String id, String deleterIp) {

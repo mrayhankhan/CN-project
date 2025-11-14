@@ -52,11 +52,25 @@ function adjustTextareaHeight() {
     }
 }
 
+// Info button navigation
+function initializeInfoButton() {
+    const infoButton = document.getElementById('infoButton');
+    if (infoButton) {
+        infoButton.addEventListener('click', () => {
+            location.href = '/about';
+        });
+    }
+}
+
 // Initialize theme on load
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeTheme);
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeTheme();
+        initializeInfoButton();
+    });
 } else {
     initializeTheme();
+    initializeInfoButton();
 }
 
 // Adjust height on resize
@@ -102,10 +116,36 @@ async function loadPaste() {
         const data = await response.json();
         originalContent = data.text;
         displayContent(originalContent);
+        
+        // Check if paste is deleted
+        if (data.deleted || (window.pasteStatus && window.pasteStatus.deleted)) {
+            showDeletedState();
+        }
     } catch (error) {
         console.error('Error loading paste:', error);
         pasteDisplay.textContent = 'Error: Paste not found';
     }
+}
+
+// Show deleted state UI
+function showDeletedState() {
+    const deletedBanner = document.getElementById('deletedBanner');
+    if (deletedBanner) {
+        deletedBanner.classList.remove('hidden');
+    }
+    
+    // Disable edit button
+    if (editButton) {
+        editButton.disabled = true;
+        editButton.title = 'Cannot edit deleted paste';
+    }
+    
+    // Disable textarea
+    if (pasteEditor) {
+        pasteEditor.disabled = true;
+    }
+    
+    console.log('Paste is deleted - read-only mode');
 }
 
 // Display content in view mode
@@ -184,6 +224,15 @@ function connectWebSocket() {
         ws.onerror = (error) => {
             console.error('WebSocket error:', error);
         };
+        
+        ws.onclose = (event) => {
+            console.log('WebSocket closed:', event.code, event.reason);
+            
+            // If closed immediately (likely due to deleted paste), show deleted state
+            if (event.code === 1006 || event.code === 1008) {
+                showDeletedState();
+            }
+        };
     } catch (error) {
         console.error('Failed to create WebSocket:', error);
         statusIndicator.textContent = '● Disconnected';
@@ -208,6 +257,11 @@ cancelButton.addEventListener('click', () => {
 
 // Enter edit mode
 function enterEditMode() {
+    // Check if paste is deleted
+    if (editButton && editButton.disabled) {
+        return; // Don't allow editing deleted pastes
+    }
+    
     isEditing = true;
     pasteEditor.value = originalContent;
     
@@ -250,6 +304,14 @@ async function saveChanges() {
             method: 'PUT',
             body: content
         });
+        
+        if (response.status === 410) {
+            // Paste has been deleted
+            showDeletedState();
+            exitEditMode();
+            alert('This paste has been deleted and cannot be edited');
+            return;
+        }
         
         if (!response.ok) {
             throw new Error('Failed to save');

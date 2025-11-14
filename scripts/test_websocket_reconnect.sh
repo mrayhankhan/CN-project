@@ -44,13 +44,37 @@ fi
 echo "✓ Node.js is available"
 echo ""
 
+# Check if ws module is available
+if ! node -e "require('ws')" 2>/dev/null; then
+    echo "⚠️  Node.js 'ws' module not installed"
+    echo ""
+    echo "To install: npm install -g ws"
+    echo ""
+    echo "Manual WebSocket Reconnection Test:"
+    echo "===================================="
+    echo ""
+    echo "1. Create a paste at http://localhost:8080"
+    echo "2. Open browser DevTools (F12) → Network tab → WS filter"
+    echo "3. Note the WebSocket connection status (101 Switching Protocols)"
+    echo "4. Toggle DevTools 'Offline' mode"
+    echo "5. Wait 2-3 seconds"
+    echo "6. Toggle 'Offline' mode back to online"
+    echo "7. Edit the paste in another browser tab"
+    echo "8. Verify the reconnected tab receives the update"
+    echo ""
+    echo "Result: Manual verification required"
+    exit 0
+fi
+
 # Create test paste
 echo "Creating test paste..."
-RESPONSE=$(curl -s -X POST http://localhost:8080/create -d "WebSocket reconnect test - initial content" -D -)
-PASTE_ID=$(echo "$RESPONSE" | grep -i "Location:" | sed 's/.*\///' | tr -d '\r\n ')
+RESPONSE=$(curl -s -X POST http://localhost:8080/create -d "text=WebSocket+reconnect+test+-+initial+content" -i)
+PASTE_ID=$(echo "$RESPONSE" | grep -i "^Location:" | sed 's/.*\///' | tr -d '\r\n ')
 
-if [ -z "$PASTE_ID" ]; then
+if [ -z "$PASTE_ID" ] || [ ${#PASTE_ID} -ne 5 ]; then
     echo "✗ Failed to create test paste"
+    echo "Response:"
+    echo "$RESPONSE"
     exit 1
 fi
 

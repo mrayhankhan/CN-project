@@ -23,6 +23,8 @@ public class RequestHandler {
             serveFile(socket, "../web/history.html", "text/html");
         } else if (path.equals("/history.js")) {
             serveFile(socket, "../web/history.js", "application/javascript");
+        } else if (path.equals("/about") || path.equals("/about.html")) {
+            serveFile(socket, "../web/about.html", "text/html");
         }
         // Create paste endpoint
         else if (path.equals("/create") && method.equals("POST")) {
@@ -62,8 +64,8 @@ public class RequestHandler {
                 if (paste == null) {
                     HttpServer.sendResponse(socket, 404, "text/plain", "Paste not found");
                 } else {
-                    // Serve the view.html page
-                    serveFile(socket, "../web/view.html", "text/html");
+                    // Serve the view.html page with deleted status
+                    serveViewWithStatus(socket, id);
                 }
             } else if (method.equals("PUT")) {
                 handleUpdate(socket, id, body);
@@ -84,6 +86,24 @@ public class RequestHandler {
             Path path = Paths.get(filePath);
             String content = new String(Files.readAllBytes(path), "UTF-8");
             HttpServer.sendResponse(socket, 200, contentType, content);
+        } catch (IOException e) {
+            HttpServer.sendResponse(socket, 404, "text/plain", "File not found");
+        }
+    }
+    
+    private static void serveViewWithStatus(Socket socket, String id) throws IOException {
+        try {
+            Path path = Paths.get("../web/view.html");
+            String content = new String(Files.readAllBytes(path), "UTF-8");
+            
+            // Check if paste is deleted
+            boolean deleted = StorageHistory.isDeleted(id);
+            
+            // Inject paste status before </head>
+            String statusScript = "<script>window.pasteStatus = {deleted: " + deleted + "};</script>";
+            content = content.replace("</head>", statusScript + "\n</head>");
+            
+            HttpServer.sendResponse(socket, 200, "text/html", content);
         } catch (IOException e) {
             HttpServer.sendResponse(socket, 404, "text/plain", "File not found");
         }
@@ -129,12 +149,21 @@ public class RequestHandler {
             return;
         }
         
-        // Return JSON with paste data
-        String json = "{\"id\":\"" + id + "\",\"text\":" + Utils.toJsonString(paste) + "}";
+        // Check if paste is deleted
+        boolean deleted = StorageHistory.isDeleted(id);
+        
+        // Return JSON with paste data and deleted status
+        String json = "{\"id\":\"" + id + "\",\"text\":" + Utils.toJsonString(paste) + ",\"deleted\":" + deleted + "}";
         HttpServer.sendResponse(socket, 200, "application/json", json);
     }
     
     private static void handleUpdate(Socket socket, String id, String body) throws IOException {
+        // Check if paste is deleted
+        if (StorageHistory.isDeleted(id)) {
+            HttpServer.sendResponse(socket, 410, "text/plain", "This paste has been deleted and cannot be edited");
+            return;
+        }
+        
         // Validate input
         if (body == null || body.trim().isEmpty()) {
             HttpServer.sendResponse(socket, 400, "text/plain", "Empty paste content");

@@ -33,6 +33,22 @@ public class WebSocketServer {
                 return;
             }
             
+            // Check if paste is deleted
+            if (StorageHistory.isDeleted(id)) {
+                // Send 403 Forbidden response and close connection
+                OutputStream out = socket.getOutputStream();
+                PrintWriter writer = new PrintWriter(out, false);
+                writer.print("HTTP/1.1 403 Forbidden\r\n");
+                writer.print("Content-Type: text/plain\r\n");
+                writer.print("Content-Length: 42\r\n");
+                writer.print("\r\n");
+                writer.print("This paste has been deleted (read-only).");
+                writer.flush();
+                socket.close();
+                System.out.println("WebSocket connection denied for deleted paste: " + id);
+                return;
+            }
+            
             // Perform WebSocket handshake
             String acceptKey = generateAcceptKey(secWebSocketKey);
             
