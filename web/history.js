@@ -1,9 +1,12 @@
+// Configuration - Update this after deploying the backend
+const BASE_URL = window.location.origin; // Change to your deployed backend URL, e.g., 'https://your-backend.app'
+
 // Testing: (1) Open history.html (2) Confirm header shows title left and Theme/Create New right (3) Toggle theme and reload, confirm theme persists (4) Shrink viewport, confirm table scrolls and header stays visible (5) Confirm Create New button does not overlap table (6) Confirm delete buttons work and table styling changes with theme
 
 // Fetch and display history
 async function loadHistory() {
     try {
-        const response = await fetch('/api/history');
+        const response = await fetch(`${BASE_URL}/api/history`);
         if (!response.ok) {
             throw new Error('Failed to fetch history');
         }
@@ -103,12 +106,12 @@ function displayHistory(history) {
 
 // Delete a paste
 async function deletePaste(id) {
-    if (!confirm(`Are you sure you want to delete paste ${id}?`)) {
+    if (!confirm('Are you sure you want to delete this paste?')) {
         return;
     }
     
     try {
-        const response = await fetch(`/api/history/${id}/delete`, {
+        const response = await fetch(`${BASE_URL}/api/history/${id}/delete`, {
             method: 'POST'
         });
         

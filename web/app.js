@@ -1,3 +1,6 @@
+// Configuration - Update this after deploying the backend
+const BASE_URL = window.location.origin; // Change to your deployed backend URL, e.g., 'https://your-backend.app'
+
 // Theme management
 function initializeTheme() {
     const savedTheme = localStorage.getItem('pasteTheme');
@@ -108,7 +111,7 @@ if (pasteId) {
 // Load paste content
 async function loadPaste() {
     try {
-        const response = await fetch(`/api/${pasteId}`);
+        const response = await fetch(`${BASE_URL}/api/${pasteId}`);
         if (!response.ok) {
             throw new Error('Paste not found');
         }
@@ -162,8 +165,9 @@ function updateUserCount(count) {
 
 // Connect to WebSocket for real-time updates
 function connectWebSocket() {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws/${pasteId}`;
+    const baseUrlObj = new URL(BASE_URL);
+    const protocol = baseUrlObj.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${baseUrlObj.host}/ws/${pasteId}`;
     
     try {
         ws = new WebSocket(wsUrl);
@@ -300,7 +304,7 @@ async function saveChanges() {
     saveButton.textContent = 'Saving...';
     
     try {
-        const response = await fetch(`/${pasteId}`, {
+        const response = await fetch(`${BASE_URL}/${pasteId}`, {
             method: 'PUT',
             body: content
         });

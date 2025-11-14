@@ -4,10 +4,22 @@ import java.util.concurrent.*;
 
 /**
  * MainServer - Entry point for the paste sharing application
- * Starts both HTTP and WebSocket servers on port 8080
+ * Starts both HTTP and WebSocket servers on the configured port
  */
 public class MainServer {
-    private static final int PORT = 8080;
+    private static final int PORT = getPort();
+    
+    private static int getPort() {
+        String portEnv = System.getenv("PORT");
+        if (portEnv != null && !portEnv.isEmpty()) {
+            try {
+                return Integer.parseInt(portEnv);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid PORT environment variable: " + portEnv + ", using default 8080");
+            }
+        }
+        return 8080;
+    }
     
     public static void main(String[] args) {
         System.out.println("Starting Minimal Collaborative Paste Service...");
