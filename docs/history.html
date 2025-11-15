@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste History</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Testing: (1) Open history.html (2) Confirm header shows title left and Theme/Create New right (3) Toggle theme and reload, confirm theme persists (4) Shrink viewport, confirm table scrolls and header stays visible (5) Confirm Create New button does not overlap table (6) Confirm delete buttons work and table styling changes with theme -->
+    <header class="page-header">
+        <h1 class="header-title">Paste History</h1>
+        <div class="header-actions">
+            <button id="infoButton" class="info-button" aria-label="Info about project"><i>i</i></button>
+            <a href="index.html" class="header-link">Create New</a>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
+        </div>
+    </header>
+    
+    <main class="historyContainer">
+        <div class="table-wrapper">
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time</th>
+                        <th>Creator IP</th>
+                        <th>Version</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body">
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="info">
+            <p>History shows the last 500 paste operations. Deleted pastes are marked but remain in history.</p>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script src="history.js"></script>
+</body>
+</html>

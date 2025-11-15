@@ -65,6 +65,18 @@ public class HttpServer {
         writer.print("Content-Type: " + contentType + "; charset=UTF-8\r\n");
         writer.print("Content-Length: " + body.getBytes("UTF-8").length + "\r\n");
         writer.print("Connection: close\r\n");
+        
+        // CORS headers - Allow requests from GitHub Pages
+        // UPDATE THIS: Replace with your actual GitHub Pages URL
+        String allowedOrigin = System.getenv("ALLOWED_ORIGIN");
+        if (allowedOrigin == null || allowedOrigin.isEmpty()) {
+            allowedOrigin = "https://mrayhankhan.github.io"; // Default: Update to your GitHub Pages URL
+        }
+        writer.print("Access-Control-Allow-Origin: " + allowedOrigin + "\r\n");
+        writer.print("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS\r\n");
+        writer.print("Access-Control-Allow-Headers: Content-Type, Authorization\r\n");
+        writer.print("Access-Control-Max-Age: 86400\r\n");
+        
         writer.print("\r\n");
         writer.flush();
         
@@ -81,6 +93,16 @@ public class HttpServer {
         writer.print("Location: " + location + "\r\n");
         writer.print("Content-Length: 0\r\n");
         writer.print("Connection: close\r\n");
+        
+        // CORS headers
+        String allowedOrigin = System.getenv("ALLOWED_ORIGIN");
+        if (allowedOrigin == null || allowedOrigin.isEmpty()) {
+            allowedOrigin = "https://mrayhankhan.github.io";
+        }
+        writer.print("Access-Control-Allow-Origin: " + allowedOrigin + "\r\n");
+        writer.print("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS\r\n");
+        writer.print("Access-Control-Allow-Headers: Content-Type, Authorization\r\n");
+        
         writer.print("\r\n");
         writer.flush();
     }

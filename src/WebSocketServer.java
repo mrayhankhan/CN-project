@@ -21,14 +21,28 @@ public class WebSocketServer {
             
             // Read headers
             String secWebSocketKey = null;
+            String origin = null;
             String line;
             while ((line = reader.readLine()) != null && !line.isEmpty()) {
                 if (line.toLowerCase().startsWith("sec-websocket-key:")) {
                     secWebSocketKey = line.substring(18).trim();
+                } else if (line.toLowerCase().startsWith("origin:")) {
+                    origin = line.substring(7).trim();
                 }
             }
             
             if (secWebSocketKey == null) {
+                socket.close();
+                return;
+            }
+            
+            // Validate origin for security (CORS for WebSocket)
+            String allowedOrigin = System.getenv("ALLOWED_ORIGIN");
+            if (allowedOrigin == null || allowedOrigin.isEmpty()) {
+                allowedOrigin = "https://mrayhankhan.github.io"; // Default: Update to your GitHub Pages URL
+            }
+            if (origin != null && !origin.startsWith("http://localhost") && !origin.startsWith("http://127.0.0.1") && !origin.equals(allowedOrigin)) {
+                System.out.println("WebSocket connection rejected from unauthorized origin: " + origin);
                 socket.close();
                 return;
             }

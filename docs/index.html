@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Paste Service</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Testing: Open in browser, toggle Theme button (colors switch and persist after reload), paste long text and confirm it scrolls inside textarea without page scrolling, resize browser and confirm layout works on mobile -->
+    <header class="page-header">
+        <h1 class="header-title">Minimal Paste Service</h1>
+        <div class="header-actions">
+            <button id="infoButton" class="info-button" aria-label="Info about project"><i>i</i></button>
+            <a href="history.html" class="header-link">History</a>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
+        </div>
+    </header>
+    
+    <main class="editorContainer">
+        <form id="paste-form" method="POST" action="/create">
+            <textarea id="pasteInput" name="text" placeholder="Paste your text here..." autofocus></textarea>
+        </form>
+        <div class="button-container">
+            <button id="goButton" class="btn-primary" type="submit" form="paste-form">Go</button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        const textarea = document.getElementById('pasteInput');
+        const form = document.getElementById('paste-form');
+        const goButton = document.getElementById('goButton');
+
+        // Handle form submission
+        form.addEventListener('submit', (e) => {
+            const content = textarea.value.trim();
+            
+            if (!content) {
+                e.preventDefault();
+                alert('Please enter some text');
+                return;
+            }
+            
+            goButton.disabled = true;
+            goButton.textContent = 'Creating...';
+        });
+
+        // Allow Ctrl+Enter to submit
+        textarea.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                form.submit();
+            }
+        });
+    </script>
+</body>
+</html>

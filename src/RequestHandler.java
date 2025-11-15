@@ -10,6 +10,12 @@ import java.util.*;
 public class RequestHandler {
     
     public static void handleRequest(Socket socket, String method, String path, String body) throws IOException {
+        // Handle CORS preflight requests
+        if (method.equals("OPTIONS")) {
+            handleOptions(socket);
+            return;
+        }
+        
         // Serve static files
         if (path.equals("/") || path.equals("/index.html")) {
             serveFile(socket, "../web/index.html", "text/html");
@@ -259,5 +265,11 @@ public class RequestHandler {
         }
         json.append("}");
         return json.toString();
+    }
+    
+    // Handle CORS preflight OPTIONS requests
+    private static void handleOptions(Socket socket) throws IOException {
+        HttpServer.sendResponse(socket, 200, "text/plain", "");
+        socket.close();
     }
 }

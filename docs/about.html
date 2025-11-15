@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Minimal Paste Service</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="page-header">
+        <h1 class="header-title">About Project</h1>
+        <div class="header-actions">
+            <button id="infoButton" class="info-button" aria-label="Info about project"><i>i</i></button>
+            <a href="index.html" class="header-link">Create New</a>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">Theme</button>
+        </div>
+    </header>
+    
+    <main class="about-container">
+        <article class="about-content">
+            <section class="about-section">
+                <h2>Minimal Collaborative Paste Service</h2>
+                <p><strong>Team:</strong> [Your Name(s) Here]</p>
+                <p>
+                    A lightweight, real-time collaborative paste-sharing service built entirely in pure Java 
+                    using only standard libraries—no frameworks, no external dependencies. The application 
+                    demonstrates advanced networking concepts including HTTP server implementation, WebSocket 
+                    protocol for real-time updates, concurrent request handling, and persistent storage.
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>Create & Share Pastes:</strong> Sequential ID generation (00001, 00002, etc.)</li>
+                    <li><strong>WebSocket Collaboration:</strong> Multiple users can edit simultaneously with real-time updates</li>
+                    <li><strong>File Persistence:</strong> JSON-based storage with atomic write operations</li>
+                    <li><strong>Public History:</strong> Browse all pastes with timestamps and previews</li>
+                    <li><strong>Soft Delete:</strong> Mark pastes as deleted while preserving data</li>
+                    <li><strong>Theme Toggle:</strong> Dark/light mode with localStorage persistence</li>
+                    <li><strong>Concurrency Control:</strong> Per-paste locking prevents data corruption</li>
+                </ul>
+            </section>
+
+            <section class="about-section">
+                <h3>Network Concepts Used</h3>
+                <ul>
+                    <li><strong>Socket Programming:</strong> TCP server socket with client connection handling</li>
+                    <li><strong>TCP Lifecycle:</strong> Three-way handshake, connection management, graceful shutdown</li>
+                    <li><strong>HTTP Parsing:</strong> Custom HTTP/1.1 request/response parser and router</li>
+                    <li><strong>WebSocket Handshake:</strong> RFC 6455 upgrade protocol with Sec-WebSocket-Accept</li>
+                    <li><strong>Thread Pool:</strong> Fixed-size executor for concurrent client handling (10 threads)</li>
+                    <li><strong>File Locking:</strong> Per-ID ReentrantLock for safe concurrent paste updates</li>
+                    <li><strong>Atomic Writes:</strong> Temp file + rename pattern for crash-safe persistence</li>
+                </ul>
+            </section>
+
+            <section class="about-section">
+                <h3>How to Run</h3>
+                <pre><code># Start the server
+chmod +x scripts/run.sh
+./scripts/run.sh
+
+# Server runs on http://localhost:8080
+
+# Create a paste via curl
+curl -X POST http://localhost:8080/create \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "text=Hello World"
+
+# Read a paste (returns JSON)
+curl http://localhost:8080/api/00001</code></pre>
+            </section>
+
+            <section class="about-section">
+                <h3>Demo & Repository</h3>
+                <p>
+                    <strong>Demo Video:</strong> 
+                    <a href="https://youtu.be/PLACEHOLDER" target="_blank" rel="noopener noreferrer">
+                        [Update with actual demo video URL]
+                    </a>
+                </p>
+                <p>
+                    <strong>GitHub Repository:</strong> 
+                    <a href="https://github.com/mrayhankhan/CN-project" target="_blank" rel="noopener noreferrer">
+                        https://github.com/mrayhankhan/CN-project
+                    </a>
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h3>Project Statistics</h3>
+                <p>
+                    <strong>Lines of Code:</strong> 1,476 lines of Java (8 source files)<br>
+                    <strong>Main Files:</strong> MainServer.java, HttpServer.java, RequestHandler.java, 
+                    WebSocketServer.java, Storage.java, StorageHistory.java, Utils.java, ServerLogger.java
+                </p>
+                <p>
+                    <strong>Total Project:</strong> ~2,700+ lines including web interface, scripts, and documentation
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h3>Course Information</h3>
+                <p>
+                    This project was developed as part of a Computer Networks course.
+                    It demonstrates practical application of network protocols and concurrent programming.
+                </p>
+            </section>
+        </article>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
