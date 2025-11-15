@@ -18,21 +18,21 @@ public class RequestHandler {
         
         // Serve static files
         if (path.equals("/") || path.equals("/index.html")) {
-            serveFile(socket, "../web/index.html", "text/html");
+            serveFile(socket, "web/index.html", "text/html");
         } else if (path.equals("/style.css")) {
-            serveFile(socket, "../web/style.css", "text/css");
+            serveFile(socket, "web/style.css", "text/css");
         } else if (path.equals("/app.js")) {
-            serveFile(socket, "../web/app.js", "application/javascript");
+            serveFile(socket, "web/app.js", "application/javascript");
         } else if (path.equals("/view.html")) {
-            serveFile(socket, "../web/view.html", "text/html");
+            serveFile(socket, "web/view.html", "text/html");
         } else if (path.equals("/history.html")) {
-            serveFile(socket, "../web/history.html", "text/html");
+            serveFile(socket, "web/history.html", "text/html");
         } else if (path.equals("/history.js")) {
-            serveFile(socket, "../web/history.js", "application/javascript");
+            serveFile(socket, "web/history.js", "application/javascript");
         } else if (path.equals("/about") || path.equals("/about.html")) {
-            serveFile(socket, "../web/about.html", "text/html");
+            serveFile(socket, "web/about.html", "text/html");
         } else if (path.equals("/debug.html")) {
-            serveFile(socket, "../web/debug.html", "text/html");
+            serveFile(socket, "web/debug.html", "text/html");
         }
         // Create paste endpoint
         else if (path.equals("/create") && method.equals("POST")) {
@@ -101,7 +101,7 @@ public class RequestHandler {
     
     private static void serveViewWithStatus(Socket socket, String id) throws IOException {
         try {
-            Path path = Paths.get("../web/view.html");
+            Path path = Paths.get("web/view.html");
             String content = new String(Files.readAllBytes(path), "UTF-8");
             
             // Check if paste is deleted
