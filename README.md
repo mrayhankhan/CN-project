@@ -5,7 +5,7 @@ A lightweight paste sharing application built entirely in pure Java using only s
 ## 🌐 Live Demo
 
 - **Frontend (GitHub Pages):** https://mrayhankhan.github.io/CN-project/
-- **Backend (Railway):** https://cn-project-production.up.railway.app
+- **Backend (Render):** https://cn-project-6y4k.onrender.com
 
 ## Features
 
@@ -29,13 +29,12 @@ Access the application at `http://localhost:8080`
 
 ### Production Deployment
 
-See **[DEPLOYMENT_VERIFICATION.md](DEPLOYMENT_VERIFICATION.md)** for complete deployment and verification guide.
-
 **Quick steps:**
-1. Deploy backend to Railway/Render/Heroku
-2. Set environment variable: `ALLOWED_ORIGIN=https://mrayhankhan.github.io`
-3. Update `docs/app.js` and `docs/history.js` with backend URL
-4. Push to GitHub to deploy Pages
+1. Deploy backend to Render using the included Dockerfile
+2. Update `docs/app.js` and `docs/history.js` with your Render URL
+3. Push to GitHub to deploy frontend via GitHub Pages
+
+For detailed instructions, see the Deployment section below.
 
 ### Testing
 
@@ -108,39 +107,36 @@ ws.onmessage = (event) => {
 
 ## 🚀 Deployment
 
-### Deployment Verification
+### Render Deployment (Recommended)
 
-Complete step-by-step verification guide: **[DEPLOYMENT_VERIFICATION.md](DEPLOYMENT_VERIFICATION.md)**
+This project uses Docker for deployment on Render:
 
-**Quick verification commands:**
-```bash
-# Test health endpoint
-curl -i https://YOUR_BACKEND_HOST/health
+1. **Create Render Web Service:**
+   - Go to [render.com](https://render.com) and create a new Web Service
+   - Connect your GitHub repository
+   - Select branch: `main`
+   - Environment: **Docker**
+   - Leave Start Command blank (Dockerfile handles it)
 
-# Test history API
-curl -i https://YOUR_BACKEND_HOST/api/history
+2. **Configure Health Check:**
+   - Health Check Path: `/api/health` or `/health`
 
-# Test WebSocket (requires wscat: npm install -g wscat)
-wscat -c wss://YOUR_BACKEND_HOST/00001
+3. **Deploy:** Click "Create Web Service" and wait for deployment
 
-# Run automated verification
-./scripts/verify_deployment.sh https://YOUR_BACKEND_HOST
-```
-
-### Environment Variables
-
-Set these in your hosting platform (Railway, Render, etc.):
-
-| Variable | Value | Description |
-|----------|-------|-------------|
-| `PORT` | Auto or `8080` | Server port (usually auto-assigned) |
-| `ALLOWED_ORIGIN` | `https://mrayhankhan.github.io` | GitHub Pages URL for CORS |
+4. **Update Frontend:**
+   - Copy your Render URL (e.g., `https://yourservice.onrender.com`)
+   - Update `docs/app.js`: Set `API_BASE` to your Render URL
+   - Update `docs/history.js`: Set `API_BASE` to your Render URL
+   - Commit and push to deploy GitHub Pages
 
 ### Deployment Files
 
-- `railway.toml` - Railway configuration
-- `nixpacks.toml` - Nixpacks build configuration
-- `start.sh` - Production startup script
+- `Dockerfile` - Docker container configuration for Render
+- `start.sh` - Local development startup script
+
+### Environment Variables
+
+Render automatically provides the `PORT` variable. No additional environment variables are required.
 
 ## Documentation
 

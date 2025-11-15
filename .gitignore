@@ -1,1 +1,5 @@
 *.class
+*.log
+server.log
+data/*.json
+data/history.log
