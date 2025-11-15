@@ -62,7 +62,8 @@
                     if (historyResponse.ok) {
                         const history = await historyResponse.json();
                         if (history && history.length > 0) {
-                            const latestPaste = history[history.length - 1];
+                            // History is sorted newest first, so take the first item
+                            const latestPaste = history[0];
                             window.location.href = `view.html?${latestPaste.id}`;
                             return;
                         }

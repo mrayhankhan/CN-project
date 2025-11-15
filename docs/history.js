@@ -137,7 +137,7 @@
         return;
       }
       
-      fetch(window.location.origin + '/api/history/' + id + '/delete', { method: 'POST' })
+      fetch(base + '/api/history/' + id + '/delete', { method: 'POST' })
         .then(r => {
           if (r.ok) {
             loadHistory();

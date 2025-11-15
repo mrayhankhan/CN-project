@@ -286,9 +286,11 @@ saveButton.addEventListener('click', async () => {
 });
 
 // Cancel button click
-cancelButton.addEventListener('click', () => {
-    exitEditMode();
-});
+if (cancelButton) {
+    cancelButton.addEventListener('click', () => {
+        exitEditMode();
+    });
+}
 
 // Enter edit mode
 function enterEditMode() {
