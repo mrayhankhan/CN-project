@@ -187,7 +187,7 @@ function updateUserCount(count) {
 
 // Connect to WebSocket for real-time updates
 function connectWebSocket() {
-    const wsUrl = `${WS_BASE}/${pasteId}`;
+    const wsUrl = `${WS_BASE}/ws/${pasteId}`;
     console.log('Connecting to WebSocket:', wsUrl);
     console.log('WS_BASE:', WS_BASE);
     console.log('pasteId:', pasteId);
