@@ -16,8 +16,8 @@ public class RequestHandler {
             return;
         }
         
-        // Health check endpoint
-        if (path.equals("/health") && method.equals("GET")) {
+        // Health check endpoints (for Render compatibility)
+        if ((path.equals("/health") || path.equals("/api/health")) && method.equals("GET")) {
             handleHealthCheck(socket);
             return;
         }
