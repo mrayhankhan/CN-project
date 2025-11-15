@@ -33,23 +33,60 @@
         const goButton = document.getElementById('goButton');
 
         // Handle form submission
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
             const content = textarea.value.trim();
             
             if (!content) {
-                e.preventDefault();
                 alert('Please enter some text');
                 return;
             }
             
             goButton.disabled = true;
             goButton.textContent = 'Creating...';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'text=' + encodeURIComponent(content),
+                    redirect: 'manual'
+                });
+                
+                if (response.type === 'opaqueredirect' || response.status === 303 || response.status === 0) {
+                    // Extract paste ID from Location header or handle redirect
+                    const location = response.headers.get('Location');
+                    if (location) {
+                        const pasteId = location.substring(1); // Remove leading /
+                        window.location.href = `view.html?${pasteId}`;
+                    } else {
+                        // Fallback: try to parse from response
+                        throw new Error('No redirect location received');
+                    }
+                } else if (response.ok) {
+                    const text = await response.text();
+                    alert('Paste created successfully!');
+                    textarea.value = '';
+                    goButton.disabled = false;
+                    goButton.textContent = 'Go';
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+            } catch (error) {
+                console.error('Error creating paste:', error);
+                alert('Failed to create paste: ' + error.message);
+                goButton.disabled = false;
+                goButton.textContent = 'Go';
+            }
         });
 
         // Allow Ctrl+Enter to submit
         textarea.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
-                form.submit();
+                form.dispatchEvent(new Event('submit'));
             }
         });
     </script>
