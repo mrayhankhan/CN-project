@@ -1,10 +1,10 @@
 [phases.setup]
-nixPkgs = ["jdk21"]
+nixPkgs = ["jdk17"]
 
 [phases.build]
 cmds = [
   "mkdir -p data",
-  "javac src/*.java"
+  "javac -source 17 -target 17 src/*.java"
 ]
 
 [start]
