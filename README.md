@@ -4,8 +4,8 @@ A lightweight paste sharing application built entirely in pure Java using only s
 
 ## 🌐 Live Demo
 
-- **Frontend (GitHub Pages):** `https://mrayhankhan.github.io/CN-project/`
-- **Backend:** `YOUR_BACKEND_HOST` *(Update after deployment)*
+- **Frontend (GitHub Pages):** https://mrayhankhan.github.io/CN-project/
+- **Backend (Railway):** https://cn-project-production.up.railway.app
 
 ## Features
 

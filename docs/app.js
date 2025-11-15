@@ -1,7 +1,7 @@
 // Configuration - Update this after deploying the backend
 // For local development: Use window.location.origin
 // For production: Replace with your deployed backend URL
-const API_BASE = 'YOUR_BACKEND_HOST'; // e.g., 'https://your-app.railway.app'
+const API_BASE = 'https://cn-project-production.up.railway.app';
 const BASE_URL = API_BASE === 'YOUR_BACKEND_HOST' ? window.location.origin : API_BASE;
 const WS_BASE = BASE_URL.startsWith('https') 
     ? 'wss://' + new URL(BASE_URL).host 
