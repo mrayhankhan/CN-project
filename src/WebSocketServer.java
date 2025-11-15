@@ -37,14 +37,17 @@ public class WebSocketServer {
             }
             
             // Validate origin for security (CORS for WebSocket)
-            String allowedOrigin = System.getenv("ALLOWED_ORIGIN");
-            if (allowedOrigin == null || allowedOrigin.isEmpty()) {
-                allowedOrigin = "https://mrayhankhan.github.io"; // Default: Update to your GitHub Pages URL
-            }
-            if (origin != null && !origin.startsWith("http://localhost") && !origin.startsWith("http://127.0.0.1") && !origin.equals(allowedOrigin)) {
-                System.out.println("WebSocket connection rejected from unauthorized origin: " + origin);
-                socket.close();
-                return;
+            // Allow GitHub Pages, Render domain, and localhost for development
+            if (origin != null) {
+                boolean isLocalhost = origin.startsWith("http://localhost") || origin.startsWith("http://127.0.0.1");
+                boolean isGitHubPages = origin.startsWith("https://mrayhankhan.github.io");
+                boolean isRenderDomain = origin.startsWith("https://cn-project-6y4k.onrender.com");
+                
+                if (!isLocalhost && !isGitHubPages && !isRenderDomain) {
+                    System.out.println("WebSocket connection rejected from unauthorized origin: " + origin);
+                    socket.close();
+                    return;
+                }
             }
             
             // Check if paste is deleted
