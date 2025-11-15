@@ -86,8 +86,13 @@ if (document.readyState === 'loading') {
 window.addEventListener('resize', adjustTextareaHeight);
 window.addEventListener('load', adjustTextareaHeight);
 
-// Extract paste ID from URL
-const pasteId = window.location.pathname.substring(1);
+// Extract paste ID from URL (supports both /00001 and view.html?00001 formats)
+let pasteId;
+if (window.location.search) {
+    pasteId = window.location.search.substring(1); // Remove ?
+} else {
+    pasteId = window.location.pathname.substring(1); // Remove /
+}
 
 // DOM elements
 const pasteIdElement = document.getElementById('paste-id');
@@ -117,17 +122,22 @@ if (pasteId && pasteIdElement) {
 // Load paste content
 async function loadPaste() {
     try {
+        console.log('Loading paste from:', `${BASE_URL}/api/${pasteId}`);
         const response = await fetch(`${BASE_URL}/api/${pasteId}`);
         if (!response.ok) {
             throw new Error('Paste not found');
         }
         
         const data = await response.json();
+        console.log('Paste data received:', data);
         originalContent = data.text;
         displayContent(originalContent);
         
-        // Check if paste is deleted
-        if (data.deleted || (window.pasteStatus && window.pasteStatus.deleted)) {
+        // Check if paste is deleted - ensure we're checking boolean, not string
+        const isDeleted = data.deleted === true || data.deleted === 'true';
+        console.log('Paste deleted status:', isDeleted, 'raw value:', data.deleted, 'type:', typeof data.deleted);
+        
+        if (isDeleted || (window.pasteStatus && window.pasteStatus.deleted)) {
             showDeletedState();
         }
     } catch (error) {

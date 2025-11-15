@@ -57,15 +57,17 @@
                 });
                 
                 if (response.type === 'opaqueredirect' || response.status === 303 || response.status === 0) {
-                    // Extract paste ID from Location header or handle redirect
-                    const location = response.headers.get('Location');
-                    if (location) {
-                        const pasteId = location.substring(1); // Remove leading /
-                        window.location.href = `view.html?${pasteId}`;
-                    } else {
-                        // Fallback: try to parse from response
-                        throw new Error('No redirect location received');
+                    // CORS prevents reading Location header, fetch history to get latest paste
+                    const historyResponse = await fetch(`${BASE_URL}/api/history`);
+                    if (historyResponse.ok) {
+                        const history = await historyResponse.json();
+                        if (history && history.length > 0) {
+                            const latestPaste = history[history.length - 1];
+                            window.location.href = `view.html?${latestPaste.id}`;
+                            return;
+                        }
                     }
+                    throw new Error('Could not find created paste');
                 } else if (response.ok) {
                     const text = await response.text();
                     alert('Paste created successfully!');
