@@ -2,6 +2,11 @@
 
 A lightweight paste sharing application built entirely in pure Java using only standard libraries—no frameworks, no external dependencies.
 
+## 🌐 Live Demo
+
+- **Frontend (GitHub Pages):** `https://mrayhankhan.github.io/CN-project/`
+- **Backend:** `YOUR_BACKEND_HOST` *(Update after deployment)*
+
 ## Features
 
 - **Simple Interface**: Full-screen textarea with instant paste creation
@@ -9,10 +14,11 @@ A lightweight paste sharing application built entirely in pure Java using only s
 - **Real-time Collaboration**: Multiple users can edit simultaneously via WebSockets
 - **Persistent Storage**: JSON file-based storage
 - **Dark Theme**: Clean, minimal UI
+- **Health Monitoring**: Built-in health check endpoint for deployment verification
 
 ## Quick Start
 
-### Running the Server
+### Local Development
 
 ```bash
 chmod +x scripts/run.sh
@@ -20,6 +26,16 @@ chmod +x scripts/run.sh
 ```
 
 Access the application at `http://localhost:8080`
+
+### Production Deployment
+
+See **[DEPLOYMENT_VERIFICATION.md](DEPLOYMENT_VERIFICATION.md)** for complete deployment and verification guide.
+
+**Quick steps:**
+1. Deploy backend to Railway/Render/Heroku
+2. Set environment variable: `ALLOWED_ORIGIN=https://mrayhankhan.github.io`
+3. Update `docs/app.js` and `docs/history.js` with backend URL
+4. Push to GitHub to deploy Pages
 
 ### Testing
 
@@ -29,6 +45,9 @@ Access the application at `http://localhost:8080`
 
 # Run all automated tests
 ./scripts/run_all_tests.sh
+
+# Verify deployment
+./scripts/verify_deployment.sh https://YOUR_BACKEND_HOST
 ```
 
 ## API Examples
@@ -80,12 +99,48 @@ ws.on('message', (data) => console.log('Update:', data));
 
 **Browser JavaScript example:**
 ```javascript
-const ws = new WebSocket('ws://localhost:8080/ws/00001');
+const ws = new WebSocket('ws://localhost:8080/00001');
 ws.onmessage = (event) => {
   console.log('Paste updated:', event.data);
   // Update UI with new content
 };
 ```
+
+## 🚀 Deployment
+
+### Deployment Verification
+
+Complete step-by-step verification guide: **[DEPLOYMENT_VERIFICATION.md](DEPLOYMENT_VERIFICATION.md)**
+
+**Quick verification commands:**
+```bash
+# Test health endpoint
+curl -i https://YOUR_BACKEND_HOST/health
+
+# Test history API
+curl -i https://YOUR_BACKEND_HOST/api/history
+
+# Test WebSocket (requires wscat: npm install -g wscat)
+wscat -c wss://YOUR_BACKEND_HOST/00001
+
+# Run automated verification
+./scripts/verify_deployment.sh https://YOUR_BACKEND_HOST
+```
+
+### Environment Variables
+
+Set these in your hosting platform (Railway, Render, etc.):
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `PORT` | Auto or `8080` | Server port (usually auto-assigned) |
+| `ALLOWED_ORIGIN` | `https://mrayhankhan.github.io` | GitHub Pages URL for CORS |
+
+### Deployment Files
+
+- `railway.toml` - Railway configuration
+- `nixpacks.toml` - Nixpacks build configuration
+- `start.sh` - Production startup script
 
 ## Documentation
 
@@ -97,6 +152,11 @@ ws.onmessage = (event) => {
 - Concurrency design and locking mechanisms
 - Complete LOC statistics (1,476 lines of Java)
 - File structure and technology stack
+
+### Deployment & Testing Guides
+
+- **[DEPLOYMENT_VERIFICATION.md](DEPLOYMENT_VERIFICATION.md)** - Complete deployment verification guide
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - GitHub Pages setup instructions
 
 ### Testing Guides
 Detailed testing documentation is available in the `documentation/` folder:

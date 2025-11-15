@@ -16,6 +16,12 @@ public class RequestHandler {
             return;
         }
         
+        // Health check endpoint
+        if (path.equals("/health") && method.equals("GET")) {
+            handleHealthCheck(socket);
+            return;
+        }
+        
         // Serve static files
         if (path.equals("/") || path.equals("/index.html")) {
             serveFile(socket, "web/index.html", "text/html");
@@ -281,6 +287,13 @@ public class RequestHandler {
     // Handle CORS preflight OPTIONS requests
     private static void handleOptions(Socket socket) throws IOException {
         HttpServer.sendResponse(socket, 200, "text/plain", "");
+        socket.close();
+    }
+    
+    // Health check endpoint
+    private static void handleHealthCheck(Socket socket) throws IOException {
+        String healthJson = "{\"status\":\"ok\",\"service\":\"paste-service\"}";
+        HttpServer.sendResponse(socket, 200, "application/json", healthJson);
         socket.close();
     }
 }
