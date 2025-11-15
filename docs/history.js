@@ -1,8 +1,8 @@
 // Robust history loading with detailed error handling and logging
 (() => {
   // Configuration - Update this after deploying the backend
-  const API_BASE = 'https://cn-project-production.up.railway.app';
-  const base = API_BASE === 'YOUR_BACKEND_HOST' ? window.location.origin : API_BASE;
+  const API_BASE = 'https://cn-project-6y4k.onrender.com';
+  const base = API_BASE;
   const api = base + '/api/history';
   const tableBody = document.querySelector('#history-body');
   

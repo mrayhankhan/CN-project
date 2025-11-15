@@ -274,9 +274,11 @@ function connectWebSocket() {
 }
 
 // Edit button click
-editButton.addEventListener('click', () => {
-    enterEditMode();
-});
+if (editButton) {
+    editButton.addEventListener('click', () => {
+        enterEditMode();
+    });
+}
 
 // Save button click
 saveButton.addEventListener('click', async () => {
