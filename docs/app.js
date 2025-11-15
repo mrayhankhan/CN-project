@@ -7,7 +7,7 @@ const WS_BASE = BASE_URL.startsWith('https')
     ? 'wss://' + new URL(BASE_URL).host 
     : 'ws://' + new URL(BASE_URL).host;
 
-console.log('App.js loaded - Version 2.0');
+console.log('App.js loaded - Version 3.0 - Render Backend');
 console.log('API_BASE:', API_BASE);
 console.log('BASE_URL:', BASE_URL);
 console.log('WS_BASE:', WS_BASE);
