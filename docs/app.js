@@ -254,10 +254,16 @@ function connectWebSocket() {
         
         ws.onclose = (event) => {
             console.log('WebSocket closed:', event.code, event.reason);
+            console.log('Close event details:', event);
             
-            // If closed immediately (likely due to deleted paste), show deleted state
-            if (event.code === 1006 || event.code === 1008) {
+            // Don't assume 1006 means deleted - it could be network/CORS issues
+            // Only show deleted state if we get a 403 Forbidden or specific reason
+            if (event.code === 1008 || (event.reason && event.reason.includes('deleted'))) {
                 showDeletedState();
+            } else if (event.code === 1006) {
+                console.warn('WebSocket closed abnormally (1006) - likely network or CORS issue, not deleted paste');
+                statusIndicator.textContent = '● Connection failed';
+                statusIndicator.className = 'disconnected';
             }
         };
     } catch (error) {
