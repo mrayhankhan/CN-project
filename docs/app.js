@@ -7,6 +7,11 @@ const WS_BASE = BASE_URL.startsWith('https')
     ? 'wss://' + new URL(BASE_URL).host 
     : 'ws://' + new URL(BASE_URL).host;
 
+console.log('App.js loaded - Version 2.0');
+console.log('API_BASE:', API_BASE);
+console.log('BASE_URL:', BASE_URL);
+console.log('WS_BASE:', WS_BASE);
+
 // Theme management
 function initializeTheme() {
     const savedTheme = localStorage.getItem('pasteTheme');
@@ -133,11 +138,11 @@ async function loadPaste() {
         originalContent = data.text;
         displayContent(originalContent);
         
-        // Check if paste is deleted - ensure we're checking boolean, not string
-        const isDeleted = data.deleted === true || data.deleted === 'true';
+        // Check if paste is deleted - ONLY check API response, ignore window.pasteStatus on GitHub Pages
+        const isDeleted = data.deleted === true;
         console.log('Paste deleted status:', isDeleted, 'raw value:', data.deleted, 'type:', typeof data.deleted);
         
-        if (isDeleted || (window.pasteStatus && window.pasteStatus.deleted)) {
+        if (isDeleted) {
             showDeletedState();
         }
     } catch (error) {
@@ -153,8 +158,9 @@ function showDeletedState() {
         deletedBanner.classList.remove('hidden');
     }
     
-    // Disable edit button
+    // Hide edit button completely for deleted pastes
     if (editButton) {
+        editButton.style.display = 'none';
         editButton.disabled = true;
         editButton.title = 'Cannot edit deleted paste';
     }
@@ -182,12 +188,15 @@ function updateUserCount(count) {
 // Connect to WebSocket for real-time updates
 function connectWebSocket() {
     const wsUrl = `${WS_BASE}/${pasteId}`;
+    console.log('Connecting to WebSocket:', wsUrl);
+    console.log('WS_BASE:', WS_BASE);
+    console.log('pasteId:', pasteId);
     
     try {
         ws = new WebSocket(wsUrl);
         
         ws.onopen = () => {
-            console.log('WebSocket connected');
+            console.log('WebSocket connected successfully to:', wsUrl);
             statusIndicator.textContent = '● Connected';
             statusIndicator.className = 'connected';
             reconnectAttempts = 0;
