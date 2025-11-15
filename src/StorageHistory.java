@@ -163,13 +163,18 @@ public class StorageHistory {
         try {
             List<Map<String, Object>> history = readById(id);
             if (history.isEmpty()) {
+                System.out.println("DEBUG isDeleted(" + id + "): No history found, returning false");
                 return false;
             }
             
             // Check the last action for this ID
             Map<String, Object> lastEntry = history.get(history.size() - 1);
             Boolean deleted = (Boolean) lastEntry.get("deleted");
-            return deleted != null && deleted;
+            boolean result = deleted != null && deleted;
+            System.out.println("DEBUG isDeleted(" + id + "): history size=" + history.size() + 
+                             ", last entry deleted field=" + deleted + 
+                             ", returning " + result);
+            return result;
             
         } finally {
             historyLock.unlock();

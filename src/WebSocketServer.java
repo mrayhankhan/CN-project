@@ -41,6 +41,7 @@ public class WebSocketServer {
             if (allowedOrigin == null || allowedOrigin.isEmpty()) {
                 allowedOrigin = "https://mrayhankhan.github.io"; // Default: Update to your GitHub Pages URL
             }
+            System.out.println("DEBUG WebSocket: Checking origin. Received: " + origin + ", Allowed: " + allowedOrigin);
             if (origin != null && !origin.startsWith("http://localhost") && !origin.startsWith("http://127.0.0.1") && !origin.equals(allowedOrigin)) {
                 System.out.println("WebSocket connection rejected from unauthorized origin: " + origin);
                 socket.close();
@@ -48,6 +49,7 @@ public class WebSocketServer {
             }
             
             // Check if paste is deleted
+            System.out.println("DEBUG WebSocket: Checking if paste " + id + " is deleted...");
             if (StorageHistory.isDeleted(id)) {
                 // Send 403 Forbidden response and close connection
                 OutputStream out = socket.getOutputStream();
