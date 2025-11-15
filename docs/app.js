@@ -159,10 +159,14 @@ function showDeletedState() {
     }
     
     // Hide edit button completely for deleted pastes
-    if (editButton) {
-        editButton.style.display = 'none';
-        editButton.disabled = true;
-        editButton.title = 'Cannot edit deleted paste';
+    const editBtn = document.getElementById('edit-button');
+    if (editBtn) {
+        editBtn.style.display = 'none';
+        editBtn.disabled = true;
+        editBtn.classList.add('hidden');
+        console.log('Edit button hidden for deleted paste');
+    } else {
+        console.warn('Edit button not found');
     }
     
     // Disable textarea
