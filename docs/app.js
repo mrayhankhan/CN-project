@@ -1,6 +1,5 @@
-// Configuration - UPDATE THIS AFTER DEPLOYING THE BACKEND
-// Replace with your deployed backend URL, e.g., 'https://your-backend.onrender.com'
-const BASE_URL = 'https://YOUR_BACKEND_HOST';
+// Configuration - Update this after deploying the backend
+const BASE_URL = window.location.origin; // Change to your deployed backend URL, e.g., 'https://your-backend.app'
 
 // Theme management
 function initializeTheme() {
@@ -103,7 +102,7 @@ let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 5;
 
 // Initialize
-if (pasteId) {
+if (pasteId && pasteIdElement) {
     pasteIdElement.textContent = pasteId;
     loadPaste();
     connectWebSocket();

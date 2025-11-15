@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug History</title>
+</head>
+<body>
+    <h1>Debug History API</h1>
+    <button onclick="testHistory()">Test History API</button>
+    <pre id="output"></pre>
+    <script>
+        async function testHistory() {
+            const output = document.getElementById('output');
+            output.textContent = 'Testing...\n';
+            
+            const BASE_URL = window.location.origin;
+            output.textContent += 'BASE_URL: ' + BASE_URL + '\n';
+            output.textContent += 'Fetching: ' + BASE_URL + '/api/history\n\n';
+            
+            try {
+                const response = await fetch(BASE_URL + '/api/history');
+                output.textContent += 'Response status: ' + response.status + '\n';
+                output.textContent += 'Response ok: ' + response.ok + '\n';
+                
+                const text = await response.text();
+                output.textContent += 'Response body:\n' + text.substring(0, 500) + '\n';
+                
+                try {
+                    const json = JSON.parse(text);
+                    output.textContent += '\nParsed JSON: ' + json.length + ' entries\n';
+                    output.textContent += 'First entry: ' + JSON.stringify(json[0], null, 2) + '\n';
+                } catch (e) {
+                    output.textContent += '\nJSON parse error: ' + e.message + '\n';
+                }
+            } catch (error) {
+                output.textContent += 'Fetch error: ' + error.message + '\n';
+                output.textContent += 'Error: ' + JSON.stringify(error) + '\n';
+            }
+        }
+    </script>
+</body>
+</html>

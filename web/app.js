@@ -102,7 +102,7 @@ let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 5;
 
 // Initialize
-if (pasteId) {
+if (pasteId && pasteIdElement) {
     pasteIdElement.textContent = pasteId;
     loadPaste();
     connectWebSocket();

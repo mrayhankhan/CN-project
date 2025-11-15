@@ -1,0 +1,6 @@
+fix: update docs BASE_URL to use window.location.origin for local testing
+
+- Change BASE_URL from placeholder to window.location.origin
+- Fixes history page stuck at loading when testing locally
+- Update form action to relative URL
+- Can be updated to absolute URL after backend deployment

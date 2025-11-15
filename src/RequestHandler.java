@@ -31,6 +31,8 @@ public class RequestHandler {
             serveFile(socket, "../web/history.js", "application/javascript");
         } else if (path.equals("/about") || path.equals("/about.html")) {
             serveFile(socket, "../web/about.html", "text/html");
+        } else if (path.equals("/debug.html")) {
+            serveFile(socket, "../web/debug.html", "text/html");
         }
         // Create paste endpoint
         else if (path.equals("/create") && method.equals("POST")) {
@@ -199,9 +201,18 @@ public class RequestHandler {
     }
     
     private static void handleGetHistory(Socket socket) throws IOException {
-        List<Map<String, Object>> history = StorageHistory.readAll();
-        String json = historyListToJson(history);
-        HttpServer.sendResponse(socket, 200, "application/json", json);
+        String clientIp = socket.getInetAddress().getHostAddress();
+        ServerLogger.log("Incoming request for /api/history from " + clientIp);
+        
+        try {
+            List<Map<String, Object>> history = StorageHistory.readAll();
+            ServerLogger.log("Retrieved " + history.size() + " history entries");
+            String json = historyListToJson(history);
+            HttpServer.sendResponse(socket, 200, "application/json", json);
+        } catch (Exception e) {
+            ServerLogger.logError("Failed to retrieve history", e);
+            HttpServer.sendResponse(socket, 500, "text/plain", "Internal server error");
+        }
     }
     
     private static void handleGetHistoryById(Socket socket, String id) throws IOException {

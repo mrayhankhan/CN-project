@@ -1,134 +1,160 @@
-// Configuration - UPDATE THIS AFTER DEPLOYING THE BACKEND
-// Replace with your deployed backend URL, e.g., 'https://your-backend.onrender.com'
-const BASE_URL = 'https://YOUR_BACKEND_HOST';
-
-// Fetch and display history
-async function loadHistory() {
+// Robust history loading with detailed error handling and logging
+(() => {
+  const base = window.location.origin;
+  const api = base + '/api/history';
+  const tableBody = document.querySelector('#history-body');
+  
+  const loadingRow = () => {
+    tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px">Loading...</td></tr>';
+  };
+  
+  const showError = msg => {
+    tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--colorAccent)">' + msg + '</td></tr>';
+    console.error('history error', msg);
+  };
+  
+  async function loadHistory() {
     try {
-        const response = await fetch(`${BASE_URL}/api/history`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch history');
-        }
-        
-        const history = await response.json();
-        displayHistory(history);
-    } catch (error) {
-        console.error('Error loading history:', error);
-        document.getElementById('history-body').innerHTML = 
-            '<tr><td colspan="7" class="error-cell">Error loading history</td></tr>';
-    }
-}
-
-// Display history in table
-function displayHistory(history) {
-    const tbody = document.getElementById('history-body');
-    
-    if (history.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-cell">No history entries found</td></tr>';
+      loadingRow();
+      console.log('fetching', api);
+      const res = await fetch(api);
+      console.log('response status', res.status);
+      
+      if (!res.ok) {
+        const text = await res.text();
+        showError('Server returned status ' + res.status + ' message: ' + text);
         return;
-    }
-    
-    tbody.innerHTML = '';
-    
-    history.forEach(entry => {
+      }
+      
+      const data = await res.json();
+      console.log('received data:', data);
+      
+      if (!Array.isArray(data)) {
+        showError('Invalid response format - expected array');
+        console.log('invalid payload', data);
+        return;
+      }
+      
+      if (data.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px">No history entries found</td></tr>';
+        return;
+      }
+      
+      tableBody.innerHTML = '';
+      data.forEach(item => {
         const row = document.createElement('tr');
-        if (entry.deleted) {
-            row.classList.add('deleted-row');
+        if (item.deleted) {
+          row.classList.add('deleted-row');
         }
         
-        // ID column with link (disabled for deleted pastes)
+        // ID column
         const idCell = document.createElement('td');
-        if (entry.deleted) {
-            // Show ID as plain text for deleted pastes
-            idCell.textContent = entry.id;
-            idCell.style.color = 'var(--colorSecondary)';
+        if (item.deleted) {
+          idCell.textContent = item.id;
+          idCell.style.color = 'var(--colorSecondary)';
         } else {
-            // Show clickable link for active pastes
-            const idLink = document.createElement('a');
-            idLink.href = 'view.html?' + entry.id;
-            idLink.textContent = entry.id;
-            idLink.classList.add('paste-link');
-            idCell.appendChild(idLink);
+          const link = document.createElement('a');
+          link.href = 'view.html?' + item.id;
+          link.textContent = item.id;
+          link.classList.add('paste-link');
+          idCell.appendChild(link);
         }
         row.appendChild(idCell);
         
         // Time column
         const timeCell = document.createElement('td');
-        const timestamp = new Date(entry.timestamp);
+        const timestamp = new Date(item.timestamp);
         timeCell.textContent = timestamp.toLocaleString();
         row.appendChild(timeCell);
         
         // Creator IP column
         const ipCell = document.createElement('td');
-        ipCell.textContent = entry.creator_ip;
+        ipCell.textContent = item.creator_ip || '';
         row.appendChild(ipCell);
         
         // Version column
         const versionCell = document.createElement('td');
-        versionCell.textContent = entry.version;
+        versionCell.textContent = item.version || '';
         row.appendChild(versionCell);
         
         // Action column
         const actionCell = document.createElement('td');
-        actionCell.textContent = entry.action;
-        actionCell.classList.add('action-cell', 'action-' + entry.action);
+        actionCell.textContent = item.action || '';
+        actionCell.classList.add('action-cell', 'action-' + (item.action || ''));
         row.appendChild(actionCell);
         
         // Status column
         const statusCell = document.createElement('td');
         statusCell.classList.add('status-cell');
-        if (entry.deleted) {
-            statusCell.textContent = 'Deleted';
-            statusCell.classList.add('status-deleted');
+        if (item.deleted) {
+          statusCell.textContent = 'Deleted';
+          statusCell.classList.add('status-deleted');
         } else {
-            statusCell.textContent = 'Active';
-            statusCell.classList.add('status-active');
+          statusCell.textContent = 'Active';
+          statusCell.classList.add('status-active');
         }
         row.appendChild(statusCell);
         
         // Actions column
         const actionsCell = document.createElement('td');
-        if (!entry.deleted) {
-            const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'Delete';
-            deleteBtn.className = 'btn-delete';
-            deleteBtn.onclick = () => deletePaste(entry.id);
-            actionsCell.appendChild(deleteBtn);
+        if (!item.deleted) {
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'Delete';
+          deleteBtn.className = 'btn-delete';
+          deleteBtn.setAttribute('data-id', item.id);
+          actionsCell.appendChild(deleteBtn);
         } else {
-            actionsCell.textContent = '-';
+          actionsCell.textContent = '-';
         }
         row.appendChild(actionsCell);
         
-        tbody.appendChild(row);
-    });
-}
-
-// Delete a paste
-async function deletePaste(id) {
-    if (!confirm('Are you sure you want to delete this paste?')) {
-        return;
+        tableBody.appendChild(row);
+      });
+      
+      console.log('Successfully loaded', data.length, 'history entries');
+      
+    } catch (e) {
+      console.error('Exception loading history:', e);
+      showError('Network or parsing error. See console for details: ' + e.message);
     }
-    
-    try {
-        const response = await fetch(`${BASE_URL}/api/history/${id}/delete`, {
-            method: 'POST'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to delete paste');
-        }
-        
-        // Reload history
-        await loadHistory();
-    } catch (error) {
-        console.error('Error deleting paste:', error);
-        alert('Failed to delete paste');
-    }
-}
-
-// Load history on page load
-if (document.readyState === 'loading') {
+  }
+  
+  // Load history on page load
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadHistory);
-} else {
+  } else {
     loadHistory();
-}
+  }
+  
+  // Handle delete button clicks
+  document.body.addEventListener('click', e => {
+    const t = e.target;
+    if (t && t.classList && t.classList.contains('btn-delete')) {
+      const id = t.getAttribute('data-id');
+      if (!confirm('Are you sure you want to delete paste ' + id + '?')) {
+        return;
+      }
+      
+      fetch(window.location.origin + '/api/history/' + id + '/delete', { method: 'POST' })
+        .then(r => {
+          if (r.ok) {
+            loadHistory();
+          } else {
+            r.text().then(t => alert('Delete failed: ' + t));
+          }
+        })
+        .catch(err => {
+          console.error('Delete error:', err);
+          alert('Network error during delete');
+        });
+    }
+  });
+  
+  // Load theme from app.js if available
+  if (typeof initializeTheme === 'function') {
+    initializeTheme();
+  }
+  if (typeof initializeInfoButton === 'function') {
+    initializeInfoButton();
+  }
+})();
