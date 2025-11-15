@@ -1,8 +1,8 @@
 // Configuration - Update this after deploying the backend
 // For local development: Use window.location.origin
 // For production: Replace with your deployed backend URL
-const API_BASE = 'https://YOUR_RENDER_SERVICE.onrender.com';
-const BASE_URL = API_BASE === 'https://YOUR_RENDER_SERVICE.onrender.com' ? window.location.origin : API_BASE;
+const API_BASE = 'https://cn-project-6y4k.onrender.com';
+const BASE_URL = API_BASE;
 const WS_BASE = BASE_URL.startsWith('https') 
     ? 'wss://' + new URL(BASE_URL).host 
     : 'ws://' + new URL(BASE_URL).host;
