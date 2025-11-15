@@ -1,5 +1,11 @@
 // Configuration - Update this after deploying the backend
-const BASE_URL = window.location.origin; // Change to your deployed backend URL, e.g., 'https://your-backend.app'
+// For local development: Use window.location.origin
+// For production: Replace with your deployed backend URL
+const API_BASE = 'YOUR_BACKEND_HOST'; // e.g., 'https://your-app.railway.app'
+const BASE_URL = API_BASE === 'YOUR_BACKEND_HOST' ? window.location.origin : API_BASE;
+const WS_BASE = BASE_URL.startsWith('https') 
+    ? 'wss://' + new URL(BASE_URL).host 
+    : 'ws://' + new URL(BASE_URL).host;
 
 // Theme management
 function initializeTheme() {
@@ -165,9 +171,7 @@ function updateUserCount(count) {
 
 // Connect to WebSocket for real-time updates
 function connectWebSocket() {
-    const baseUrlObj = new URL(BASE_URL);
-    const protocol = baseUrlObj.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${baseUrlObj.host}/ws/${pasteId}`;
+    const wsUrl = `${WS_BASE}/${pasteId}`;
     
     try {
         ws = new WebSocket(wsUrl);

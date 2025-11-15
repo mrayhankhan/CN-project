@@ -1,6 +1,8 @@
 // Robust history loading with detailed error handling and logging
 (() => {
-  const base = window.location.origin;
+  // Configuration - Update this after deploying the backend
+  const API_BASE = 'YOUR_BACKEND_HOST'; // e.g., 'https://your-app.railway.app'
+  const base = API_BASE === 'YOUR_BACKEND_HOST' ? window.location.origin : API_BASE;
   const api = base + '/api/history';
   const tableBody = document.querySelector('#history-body');
   
