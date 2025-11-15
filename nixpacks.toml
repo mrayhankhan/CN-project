@@ -2,7 +2,10 @@
 nixPkgs = ["jdk17"]
 
 [phases.build]
-cmds = ["javac src/*.java"]
+cmds = [
+  "mkdir -p data",
+  "javac src/*.java"
+]
 
 [start]
-cmd = "./start.sh"
+cmd = "java -cp src MainServer"

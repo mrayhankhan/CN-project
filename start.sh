@@ -10,13 +10,5 @@ if [ ! -f data/history.log ]; then
   touch data/history.log
 fi
 
-# compile java sources
-javac src/*.java
-
 # run server using port from environment or 8080
-if [ -z "${PORT:-}" ]; then
-  java -cp src MainServer
-else
-  export PORT
-  java -cp src MainServer
-fi
+java -cp src MainServer
