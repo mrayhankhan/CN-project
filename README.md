@@ -167,7 +167,7 @@ This project uses Docker for deployment on Render:
 ### Deployment Files
 
 - `Dockerfile` - Docker container configuration for Render
-- `start.sh` - Local development startup script
+- `scripts/start.sh` - Local development startup script
 
 ### Environment Variables
 
