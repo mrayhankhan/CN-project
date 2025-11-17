@@ -39,8 +39,7 @@ Unlike typical paste services that use frameworks (Spring, Express), this projec
 ## Architecture Design
 
 ### System Architecture Diagram
-
-<img width="3051" height="938" alt="image" src="https://github.com/user-attachments/assets/82fcdd12-6c62-47ab-b7ed-80f9845e8f23" />
+<img width="1472" height="276" alt="Screenshot 2025-11-17 at 11 06 06 AM" src="https://github.com/user-attachments/assets/b3183944-dcc6-4af6-8a93-432fea199f8c" />
 
 
 ### HTTP Request Flow
@@ -82,6 +81,8 @@ Client                HttpServer           RequestHandler         Storage
 ```
 
 ### WebSocket Flow
+<img width="3692" height="1083" alt="image" src="https://github.com/user-attachments/assets/87b7fdfc-9b04-4ae3-bcea-59a186e9a5fb" />
+
 
 ```
 Client                WebSocketServer       Storage              Other Clients
