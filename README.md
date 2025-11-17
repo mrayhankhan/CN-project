@@ -6,6 +6,8 @@ A lightweight paste sharing application built entirely in pure Java using only s
 
 - **Frontend (GitHub Pages):** https://mrayhankhan.github.io/CN-project/
 - **Backend (Render):** https://cn-project-6y4k.onrender.com
+  
+<img width="1710" height="986" alt="Screenshot 2025-11-17 at 9 00 39 PM" src="https://github.com/user-attachments/assets/ffb20a3c-cb00-44bd-b4b1-6c2e31c87ab8" />
 
 <!-- 
 📸 MEDIA IDEAS - Add these sections to showcase your project:
