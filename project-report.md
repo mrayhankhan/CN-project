@@ -3,7 +3,7 @@
 **Course:** Computer Networks Project  
 **Date:** November 14, 2025  
 **Implementation:** Java (Pure Standard Library)  
-**Lines of Code:** 1,476
+**Lines of Code:** 1,561 (Java) + 1,200+ (Frontend) = ~2,800 total
 
 ---
 
@@ -628,21 +628,23 @@ public void broadcastUpdate(String pasteId, String content) {
 
 | Component | Lines | Description |
 |-----------|-------|-------------|
-| **Java Source** | **1,476** | **Total production code** |
-| MainServer.java | 187 | Server initialization and coordination |
-| HttpServer.java | 124 | HTTP connection handling |
-| RequestHandler.java | 392 | HTTP routing and request processing |
-| WebSocketServer.java | 318 | WebSocket protocol implementation |
-| Storage.java | 245 | File-based storage with locking |
-| StorageHistory.java | 98 | Paste history tracking |
-| Utils.java | 67 | JSON utilities and helpers |
-| ServerLogger.java | 45 | Logging functionality |
-| **Web Interface** | **~350** | **HTML/CSS/JavaScript** |
-| index.html | 75 | Home page |
-| view.html | 92 | Paste viewer with WebSocket |
-| history.html | 68 | History browser |
-| app.js | 85 | Client-side WebSocket logic |
-| style.css | 30 | Dark theme styling |
+| **Java Source** | **1,561** | **Total backend code** |
+| MainServer.java | 88 | Server initialization |
+| HttpServer.java | 123 | HTTP connection handling |
+| RequestHandler.java | 300 | HTTP routing and endpoints |
+| WebSocketServer.java | 278 | WebSocket protocol |
+| Storage.java | 254 | File-based storage |
+| StorageHistory.java | 359 | History tracking with delete |
+| Utils.java | 89 | JSON and utilities |
+| ServerLogger.java | 70 | Logging functionality |
+| **Frontend** | **1,200+** | **HTML/CSS/JavaScript** |
+| docs/app.js | 403 | Main application logic |
+| docs/history.js | 163 | History page logic |
+| docs/style.css | 696 | Dark/light theme styling |
+| docs/index.html | 95 | Create paste page |
+| docs/view.html | 46 | Paste viewer |
+| docs/history.html | 66 | History browser |
+| docs/about.html | 131 | About/documentation page |
 | **Shell Scripts** | **~400** | **Testing and automation** |
 | run.sh | 45 | Server startup script |
 | smoke_test.sh | 95 | Basic functionality test |
@@ -771,7 +773,7 @@ This project successfully demonstrates a deep understanding of computer networki
 - Thread-safe concurrent request handling
 - Atomic file operations for data persistence
 
-The resulting application is a fully functional, real-time collaborative paste service that handles multiple concurrent users while maintaining data integrity—all in just 1,476 lines of well-structured, documented Java code.
+The resulting application is a fully functional, real-time collaborative paste service that handles multiple concurrent users while maintaining data integrity—all in 1,561 lines of well-structured Java code and 1,200+ lines of frontend code (~2,800 total lines).
 
 **Project Complexity:** High  
 **Network Concepts:** Advanced  

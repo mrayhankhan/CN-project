@@ -7,6 +7,41 @@ A lightweight paste sharing application built entirely in pure Java using only s
 - **Frontend (GitHub Pages):** https://mrayhankhan.github.io/CN-project/
 - **Backend (Render):** https://cn-project-6y4k.onrender.com
 
+<!-- 
+📸 MEDIA IDEAS - Add these sections to showcase your project:
+
+### Screenshots
+![Home Page](screenshots/home-page.png)
+*Simple, full-screen interface for creating pastes*
+
+![Real-time Editing](screenshots/realtime-editing.gif)
+*Multiple users editing simultaneously via WebSocket*
+
+![History Browser](screenshots/history-page.png)
+*Browse all pastes with timestamps and status*
+
+![Dark Theme](screenshots/dark-theme.png)
+*Clean dark theme with smooth transitions*
+
+### Demo Video
+[![Project Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+*Click to watch full feature demonstration*
+
+### Architecture Diagrams
+![System Architecture](docs/images/architecture.png)
+*High-level system architecture*
+
+![WebSocket Flow](docs/images/websocket-flow.png)
+*Real-time collaboration flow*
+
+To add media:
+1. Create a `screenshots/` folder in your repo
+2. Add PNG/GIF files (compress them for faster loading)
+3. For videos: Upload to YouTube and embed the thumbnail
+4. For diagrams: Use tools like draw.io, Excalidraw, or Mermaid
+5. Reference images using relative paths: `![Alt text](path/to/image.png)`
+-->
+
 ## Features
 
 - **Simple Interface**: Full-screen textarea with instant paste creation
@@ -138,30 +173,27 @@ This project uses Docker for deployment on Render:
 
 Render automatically provides the `PORT` variable. No additional environment variables are required.
 
-## Documentation
+## 📊 Project Statistics
 
-### Project Report
-📄 **[PROJECT_REPORT.md](PROJECT_REPORT.md)** - Complete project documentation including:
-- Architecture diagrams (HTTP flow, WebSocket flow, Storage)
-- Detailed networking concepts (Sockets, TCP, Thread pools, WebSocket handshake, File persistence)
-- Implementation details and code structure
-- Concurrency design and locking mechanisms
-- Complete LOC statistics (1,476 lines of Java)
-- File structure and technology stack
+- **Backend:** 1,561 lines of Java (8 classes, zero dependencies)
+- **Frontend:** 1,200+ lines (HTML, CSS, JavaScript)
+- **Total:** ~2,800 lines of code
+- **Test Coverage:** 7 automated test scripts
 
-### Deployment & Testing Guides
+## 📚 Documentation
 
-- **[DEPLOYMENT_VERIFICATION.md](DEPLOYMENT_VERIFICATION.md)** - Complete deployment verification guide
-- **[DEPLOYMENT.md](DEPLOYMENT.md)** - GitHub Pages setup instructions
+### Core Documentation
+- 📄 **[project-report.md](project-report.md)** - Complete technical documentation with architecture diagrams
+- 📝 **[implementation-summary.md](implementation-summary.md)** - Implementation details and key decisions
 
 ### Testing Guides
-Detailed testing documentation is available in the `documentation/` folder:
+Detailed testing documentation in the `documentation/` folder:
 
-- **[Testing Guide](documentation/testing-guide.md)** - Comprehensive testing overview and checklist
+- **[Testing Guide](documentation/testing-guide.md)** - Comprehensive testing overview
 - **[WebSocket Testing](documentation/websocket-testing.md)** - Real-time collaboration tests
 - **[Concurrency Testing](documentation/concurrency-testing.md)** - Multi-user concurrent access tests
-- **[Cross-Browser Testing](documentation/cross-browser-testing.md)** - Browser compatibility verification
-- **[History Feature Testing](documentation/history-testing.md)** - Paste history functionality tests
+- **[Cross-Browser Testing](documentation/cross-browser-testing.md)** - Browser compatibility
+- **[History Testing](documentation/history-testing.md)** - Paste history functionality
 
 ## Architecture
 

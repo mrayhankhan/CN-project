@@ -68,34 +68,46 @@
    - Timeline of concurrent operations
    - Code examples
 
-#### ✅ LOC Summary and File List (Lines 627-705)
+#### ✅ LOC Summary and File List (Updated)
 
-**Complete Statistics Table:**
-- Java Source: 1,476 lines (8 files)
-- Web Interface: ~350 lines (5 files)
+**Complete Statistics:**
+- Java Backend: 1,561 lines (8 files)
+- Frontend (docs/): 1,200+ lines (HTML/CSS/JS)
 - Shell Scripts: ~400 lines (8 scripts)
-- **Total: ~2,226 lines**
+- **Total: ~3,200 lines**
 
-**Detailed Breakdown by File:**
+**Backend Breakdown:**
 ```
-MainServer.java         187 lines
-HttpServer.java         124 lines
-RequestHandler.java     392 lines
-WebSocketServer.java    318 lines
-Storage.java            245 lines
-StorageHistory.java      98 lines
-Utils.java               67 lines
-ServerLogger.java        45 lines
+MainServer.java         88 lines
+HttpServer.java        123 lines  
+RequestHandler.java    300 lines
+WebSocketServer.java   278 lines
+Storage.java           254 lines
+StorageHistory.java    359 lines
+Utils.java              89 lines
+ServerLogger.java       70 lines
 ```
 
-**Complete File Structure Tree:**
+**Frontend Breakdown:**
+```
+docs/app.js            403 lines (main logic)
+docs/history.js        163 lines
+docs/style.css         696 lines (themes)
+docs/index.html         95 lines
+docs/view.html          46 lines
+docs/history.html       66 lines
+docs/about.html        131 lines
+```
+
+**Project Structure:**
 ```
 CN-project/
-├── src/                    # Java source (1,476 LOC)
-├── web/                    # Frontend (~350 LOC)
+├── src/                    # Java backend (1,561 LOC)
+├── docs/                   # GitHub Pages frontend (1,200+ LOC)
 ├── scripts/                # Automation (~400 LOC)
 ├── documentation/          # Testing guides
 ├── data/                   # Runtime storage
+├── Dockerfile              # Render deployment
 └── README.md
 ```
 
