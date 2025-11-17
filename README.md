@@ -187,13 +187,12 @@ Render automatically provides the `PORT` variable. No additional environment var
 - 📝 **[implementation-summary.md](implementation-summary.md)** - Implementation details and key decisions
 
 ### Testing Guides
-Detailed testing documentation in the `documentation/` folder:
+Detailed testing documentation in the `additional documentation/` folder:
 
-- **[Testing Guide](documentation/testing-guide.md)** - Comprehensive testing overview
-- **[WebSocket Testing](documentation/websocket-testing.md)** - Real-time collaboration tests
-- **[Concurrency Testing](documentation/concurrency-testing.md)** - Multi-user concurrent access tests
-- **[Cross-Browser Testing](documentation/cross-browser-testing.md)** - Browser compatibility
-- **[History Testing](documentation/history-testing.md)** - Paste history functionality
+- **[Testing Guide](additional%20documentation/testing-guide.md)** - Comprehensive testing overview
+- **[WebSocket Testing](additional%20documentation/websocket-testing.md)** - Real-time collaboration tests
+- **[Concurrency Testing](additional%20documentation/concurrency-testing.md)** - Multi-user concurrent access tests
+- **[History Testing](additional%20documentation/history-testing.md)** - Paste history functionality
 
 ## Architecture
 
