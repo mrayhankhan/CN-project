@@ -185,8 +185,7 @@ Render automatically provides the `PORT` variable. No additional environment var
 ## 📚 Documentation
 
 ### Core Documentation
-- 📄 **[project-report.md](project-report.md)** - Complete technical documentation with architecture diagrams
-- 📝 **[implementation-summary.md](implementation-summary.md)** - Implementation details and key decisions
+- 📄 **[project-report.md](additional%20documentation/project-report.md)** - Complete technical documentation with architecture diagrams
 
 ### Testing Guides
 Detailed testing documentation in the `additional documentation/` folder:
