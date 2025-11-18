@@ -2,7 +2,7 @@
 
 A lightweight paste sharing application built entirely in pure Java using only standard libraries—no frameworks, no external dependencies.
 
-## 🌐 Live Demo
+## Live Demo
 
 - **Frontend (GitHub Pages):** https://mrayhankhan.github.io/CN-project/
 - **Backend (Render):** https://cn-project-6y4k.onrender.com
@@ -142,7 +142,7 @@ ws.onmessage = (event) => {
 };
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Render Deployment (Recommended)
 
@@ -175,14 +175,14 @@ This project uses Docker for deployment on Render:
 
 Render automatically provides the `PORT` variable. No additional environment variables are required.
 
-## 📊 Project Statistics
+## Project Statistics
 
 - **Backend:** 1,561 lines of Java (8 classes, zero dependencies)
 - **Frontend:** 1,200+ lines (HTML, CSS, JavaScript)
 - **Total:** ~2,800 lines of code
 - **Test Coverage:** 7 automated test scripts
 
-## 📚 Documentation
+## Documentation
 
 ### Core Documentation
 - 📄 **[project-report.md](additional%20documentation/project-report.md)** - Complete technical documentation with architecture diagrams
